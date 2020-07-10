@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="C9I-4L-bQ0">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Audio Call Chat View Controller-->
+        <scene sceneID="dfF-Vv-BTz">
+            <objects>
+                <viewController id="C9I-4L-bQ0" customClass="CSAudioCallChatViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="v2S-hk-Qta">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="7pu-Z0-aIV">
+                                <rect key="frame" x="106" y="808" width="202" height="46"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uja-Hf-lP8">
+                                        <rect key="frame" x="0.0" y="0.0" width="46" height="46"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Uja-Hf-lP8" secondAttribute="height" id="q45-Pi-yuC"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="btn_audio_enabled"/>
+                                        <state key="selected" image="btn_audio_disabled"/>
+                                        <connections>
+                                            <action selector="actionDidTapMuteAudioBtn:" destination="C9I-4L-bQ0" eventType="touchUpInside" id="VQx-eo-Wby"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qwr-Gf-Fd3">
+                                        <rect key="frame" x="78" y="0.0" width="46" height="46"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="qwr-Gf-Fd3" secondAttribute="height" id="RKb-Qg-rNm"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_endcall"/>
+                                        <connections>
+                                            <action selector="actionDidTapEndCallBtn:" destination="C9I-4L-bQ0" eventType="touchUpInside" id="WX5-6b-eOW"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DsP-ue-1cP">
+                                        <rect key="frame" x="156" y="0.0" width="46" height="46"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="DsP-ue-1cP" secondAttribute="height" id="JO8-wc-lLT"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_speaker_on"/>
+                                        <state key="selected" image="btn_speaker_off"/>
+                                        <connections>
+                                            <action selector="actionDidTapSpeakerBtn:" destination="C9I-4L-bQ0" eventType="touchUpInside" id="tBN-Xm-gae"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="ZaQ-0x-RPZ"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="7pu-Z0-aIV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NvD-Tw-chF" secondAttribute="leading" constant="16" id="4a5-fB-Dco"/>
+                            <constraint firstItem="7pu-Z0-aIV" firstAttribute="centerX" secondItem="v2S-hk-Qta" secondAttribute="centerX" id="60U-8n-7aj"/>
+                            <constraint firstItem="NvD-Tw-chF" firstAttribute="bottom" secondItem="7pu-Z0-aIV" secondAttribute="bottom" constant="8" id="A0o-bB-rlK"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7pu-Z0-aIV" secondAttribute="trailing" constant="16" id="XdU-gc-0bo"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="NvD-Tw-chF"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="EHX-0h-dPS"/>
+                    <connections>
+                        <outlet property="muteAudioBtn" destination="Uja-Hf-lP8" id="rOw-zg-InO"/>
+                        <outlet property="speakerBtn" destination="DsP-ue-1cP" id="Ara-M1-iTn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="07B-Cu-1LA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="467" y="-118"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="btn_audio_disabled" width="38" height="38"/>
+        <image name="btn_audio_enabled" width="38" height="38"/>
+        <image name="btn_endcall" width="38" height="38"/>
+        <image name="btn_speaker_off" width="38" height="38"/>
+        <image name="btn_speaker_on" width="38" height="38"/>
+    </resources>
+</document>

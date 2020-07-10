@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RYe-H9-uN4">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Audio Live View Controller-->
+        <scene sceneID="OK7-Lq-CcR">
+            <objects>
+                <viewController id="RYe-H9-uN4" customClass="CSAudioLiveViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jhL-ZO-7NO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="D8o-XK-cgd">
+                                <rect key="frame" x="0.0" y="144" width="414" height="120"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MlY-sH-Ulb">
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="120"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="Z8n-CV-c4G"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cVp-Bc-SOf" customClass="CSAudioLiveSeatCell">
+                                        <rect key="frame" x="13.5" y="0.0" width="120" height="120"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="cVp-Bc-SOf" secondAttribute="height" multiplier="1:1" id="zr4-ZX-O7c"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N7T-3g-ehW" customClass="CSAudioLiveSeatCell">
+                                        <rect key="frame" x="147" y="0.0" width="120" height="120"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="N7T-3g-ehW" secondAttribute="height" multiplier="1:1" id="3d0-o4-176"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ID-jS-Fag" customClass="CSAudioLiveSeatCell">
+                                        <rect key="frame" x="280.5" y="0.0" width="120" height="120"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="9ID-jS-Fag" secondAttribute="height" multiplier="1:1" id="jPN-Tn-ZSt"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gZc-uo-Pg1">
+                                        <rect key="frame" x="414" y="0.0" width="0.0" height="120"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="fcE-Db-reB"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="9ID-jS-Fag" firstAttribute="width" secondItem="9ID-jS-Fag" secondAttribute="height" multiplier="1:1" id="8p7-4e-ER8"/>
+                                    <constraint firstAttribute="height" constant="120" id="PGv-GT-ZdW"/>
+                                    <constraint firstItem="N7T-3g-ehW" firstAttribute="width" secondItem="N7T-3g-ehW" secondAttribute="height" multiplier="1:1" id="xnn-qV-1YN"/>
+                                    <constraint firstItem="9ID-jS-Fag" firstAttribute="width" secondItem="9ID-jS-Fag" secondAttribute="height" multiplier="1:1" id="xvD-U7-fDJ"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="xql-S5-MXE">
+                                <rect key="frame" x="0.0" y="296" width="414" height="120"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LUT-xV-3iD">
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="120"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="LPn-dL-fL6"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Unp-IP-kv5" customClass="CSAudioLiveSeatCell">
+                                        <rect key="frame" x="13.5" y="0.0" width="120" height="120"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Unp-IP-kv5" secondAttribute="height" multiplier="1:1" id="nz0-a7-bNO"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SIO-p3-Die" customClass="CSAudioLiveSeatCell">
+                                        <rect key="frame" x="147" y="0.0" width="120" height="120"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="SIO-p3-Die" secondAttribute="height" multiplier="1:1" id="nfE-Dc-3PJ"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R1C-6L-EGg" customClass="CSAudioLiveSeatCell">
+                                        <rect key="frame" x="280.5" y="0.0" width="120" height="120"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="R1C-6L-EGg" secondAttribute="height" multiplier="1:1" id="gaJ-cU-F2o"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y0e-wV-3iY">
+                                        <rect key="frame" x="414" y="0.0" width="0.0" height="120"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="y8S-FU-b2H"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="R1C-6L-EGg" firstAttribute="width" secondItem="R1C-6L-EGg" secondAttribute="height" multiplier="1:1" id="hES-3d-Ks3"/>
+                                    <constraint firstItem="SIO-p3-Die" firstAttribute="width" secondItem="SIO-p3-Die" secondAttribute="height" multiplier="1:1" id="id6-4A-lyz"/>
+                                    <constraint firstItem="R1C-6L-EGg" firstAttribute="width" secondItem="R1C-6L-EGg" secondAttribute="height" multiplier="1:1" id="k0P-le-1R2"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="8I8-g9-z9E">
+                                <rect key="frame" x="149" y="800" width="116" height="46"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ei-R6-Dfv">
+                                        <rect key="frame" x="0.0" y="0.0" width="38" height="46"/>
+                                        <state key="normal" image="btn_onmic"/>
+                                        <state key="selected" image="btn_offmic"/>
+                                        <connections>
+                                            <action selector="actionDidTapChangeRole:" destination="RYe-H9-uN4" eventType="touchUpInside" id="VNo-8O-lmL"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BCw-kr-xOV">
+                                        <rect key="frame" x="70" y="0.0" width="46" height="46"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="BCw-kr-xOV" secondAttribute="height" id="NLi-ml-tP4"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_endcall"/>
+                                        <connections>
+                                            <action selector="actionDidTapEndLive:" destination="RYe-H9-uN4" eventType="touchUpInside" id="Ddg-CS-etE"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="Jhd-sy-bJp"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="SHD-bR-K2J" firstAttribute="trailing" secondItem="D8o-XK-cgd" secondAttribute="trailing" id="1ai-zr-uVj"/>
+                            <constraint firstItem="xql-S5-MXE" firstAttribute="leading" secondItem="D8o-XK-cgd" secondAttribute="leading" id="DxM-Fj-m0A"/>
+                            <constraint firstItem="SHD-bR-K2J" firstAttribute="bottom" secondItem="8I8-g9-z9E" secondAttribute="bottom" constant="16" id="EHh-9A-UC9"/>
+                            <constraint firstItem="xql-S5-MXE" firstAttribute="top" secondItem="D8o-XK-cgd" secondAttribute="bottom" constant="32" id="J1d-wM-rt6"/>
+                            <constraint firstItem="xql-S5-MXE" firstAttribute="height" secondItem="D8o-XK-cgd" secondAttribute="height" id="M1c-Ak-dUf"/>
+                            <constraint firstItem="8I8-g9-z9E" firstAttribute="centerX" secondItem="jhL-ZO-7NO" secondAttribute="centerX" id="NVH-Xm-4ec"/>
+                            <constraint firstItem="xql-S5-MXE" firstAttribute="trailing" secondItem="D8o-XK-cgd" secondAttribute="trailing" id="gkE-lK-L3o"/>
+                            <constraint firstItem="D8o-XK-cgd" firstAttribute="top" secondItem="SHD-bR-K2J" secondAttribute="top" constant="100" id="maK-37-qWZ"/>
+                            <constraint firstItem="D8o-XK-cgd" firstAttribute="leading" secondItem="SHD-bR-K2J" secondAttribute="leading" id="xPz-Ye-clY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="SHD-bR-K2J"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="xQy-hR-iOv"/>
+                    <connections>
+                        <outlet property="onMicBtn" destination="9ei-R6-Dfv" id="Jv1-LD-FKD"/>
+                        <outletCollection property="guestSeatCells" destination="cVp-Bc-SOf" id="aPX-7f-wwb"/>
+                        <outletCollection property="guestSeatCells" destination="N7T-3g-ehW" id="8n7-wm-Sra"/>
+                        <outletCollection property="guestSeatCells" destination="9ID-jS-Fag" id="h6z-fh-2zy"/>
+                        <outletCollection property="guestSeatCells" destination="Unp-IP-kv5" id="daP-bQ-2dP"/>
+                        <outletCollection property="guestSeatCells" destination="SIO-p3-Die" id="MbM-g3-3cM"/>
+                        <outletCollection property="guestSeatCells" destination="R1C-6L-EGg" id="iXv-1S-5qB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lqx-OW-wiU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="275" y="-34"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="btn_endcall" width="38" height="38"/>
+        <image name="btn_offmic" width="38" height="38"/>
+        <image name="btn_onmic" width="38" height="38"/>
+    </resources>
+</document>

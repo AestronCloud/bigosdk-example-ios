@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QGn-d9-36B">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Live View Controller-->
+        <scene sceneID="wti-TS-PMR">
+            <objects>
+                <viewController storyboardIdentifier="CSLiveViewController" id="QGn-d9-36B" customClass="CSLiveViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kJr-Ey-aPA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <glkView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" enableSetNeedsDisplay="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S0i-s4-RSN">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.1450980392" green="0.1450980392" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
+                            </glkView>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kyx-TN-Hdq">
+                                <rect key="frame" x="329" y="8" width="38" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="38" id="DE7-uv-kTm"/>
+                                    <constraint firstAttribute="width" secondItem="kyx-TN-Hdq" secondAttribute="height" multiplier="1:1" id="pni-dn-q7V"/>
+                                </constraints>
+                                <state key="normal" image="btn_close"/>
+                                <connections>
+                                    <action selector="actionDidTapQuit:" destination="QGn-d9-36B" eventType="touchUpInside" id="79X-ff-ze2"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ubL-tD-VKV">
+                                <rect key="frame" x="16" y="531" width="308" height="68"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0sd-tw-QDq">
+                                        <rect key="frame" x="0.0" y="0.0" width="38" height="68"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lfL-tv-Ig6">
+                                                <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="lfL-tv-Ig6" secondAttribute="height" id="Qvy-21-NCX"/>
+                                                </constraints>
+                                                <state key="normal" image="btn_adduid"/>
+                                                <connections>
+                                                    <action selector="actionDidTapAddBlockUid:" destination="QGn-d9-36B" eventType="touchUpInside" id="MVF-fk-CSz"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="黑名单" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="awb-8E-63h">
+                                                <rect key="frame" x="0.0" y="40" width="38" height="28"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="awb-8E-63h" secondAttribute="bottom" id="CWj-fh-xSe"/>
+                                            <constraint firstAttribute="trailing" secondItem="lfL-tv-Ig6" secondAttribute="trailing" id="Xg7-uI-tzu"/>
+                                            <constraint firstItem="lfL-tv-Ig6" firstAttribute="top" secondItem="0sd-tw-QDq" secondAttribute="top" id="ay4-c9-KFE"/>
+                                            <constraint firstItem="awb-8E-63h" firstAttribute="leading" secondItem="0sd-tw-QDq" secondAttribute="leading" id="azs-S8-6ZY"/>
+                                            <constraint firstItem="lfL-tv-Ig6" firstAttribute="bottom" secondItem="awb-8E-63h" secondAttribute="top" constant="-2" id="cfF-CR-WII"/>
+                                            <constraint firstAttribute="trailing" secondItem="awb-8E-63h" secondAttribute="trailing" id="dDd-mQ-jY3"/>
+                                            <constraint firstItem="lfL-tv-Ig6" firstAttribute="leading" secondItem="0sd-tw-QDq" secondAttribute="leading" id="nDa-8R-i8O"/>
+                                            <constraint firstAttribute="width" constant="38" id="uRH-b8-CjU"/>
+                                            <constraint firstAttribute="height" constant="68" id="vzO-50-log"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZu-LE-nH5">
+                                        <rect key="frame" x="54" y="0.0" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="FZu-LE-nH5" secondAttribute="height" multiplier="1:1" id="Gxu-qp-CX4"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_deleteuid"/>
+                                        <connections>
+                                            <action selector="actionDidTapRemoveBlockUid:" destination="QGn-d9-36B" eventType="touchUpInside" id="bDh-tR-WAV"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PER-Z1-qkW">
+                                        <rect key="frame" x="108" y="0.0" width="38" height="68"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqM-ji-BUC">
+                                                <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="bqM-ji-BUC" secondAttribute="height" id="rt5-VX-Bkp"/>
+                                                </constraints>
+                                                <state key="normal" image="btn_adduid"/>
+                                                <connections>
+                                                    <action selector="actionDidTapAddWhiteUid:" destination="QGn-d9-36B" eventType="touchUpInside" id="dsT-pF-0Jk"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="白名单" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V1U-P8-HL9">
+                                                <rect key="frame" x="0.0" y="40" width="38" height="28"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="bqM-ji-BUC" firstAttribute="centerX" secondItem="PER-Z1-qkW" secondAttribute="centerX" id="2G8-bp-WfJ"/>
+                                            <constraint firstItem="bqM-ji-BUC" firstAttribute="top" secondItem="PER-Z1-qkW" secondAttribute="top" id="4AW-Zg-hXa"/>
+                                            <constraint firstAttribute="bottom" secondItem="V1U-P8-HL9" secondAttribute="bottom" id="RaV-35-43f"/>
+                                            <constraint firstItem="bqM-ji-BUC" firstAttribute="leading" secondItem="PER-Z1-qkW" secondAttribute="leading" id="Ssz-kG-W5D"/>
+                                            <constraint firstAttribute="trailing" secondItem="bqM-ji-BUC" secondAttribute="trailing" id="TcN-80-3Lc"/>
+                                            <constraint firstAttribute="trailing" secondItem="V1U-P8-HL9" secondAttribute="trailing" id="XUv-kf-JW5"/>
+                                            <constraint firstItem="V1U-P8-HL9" firstAttribute="leading" secondItem="PER-Z1-qkW" secondAttribute="leading" id="b0p-EQ-Cxo"/>
+                                            <constraint firstAttribute="width" constant="38" id="sGN-du-Lzg"/>
+                                            <constraint firstItem="V1U-P8-HL9" firstAttribute="top" secondItem="bqM-ji-BUC" secondAttribute="bottom" constant="2" id="vp2-Jc-0pg"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVO-zl-iBp">
+                                        <rect key="frame" x="162" y="0.0" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="gVO-zl-iBp" secondAttribute="height" multiplier="1:1" id="wbT-ph-Kxr"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_deleteuid"/>
+                                        <connections>
+                                            <action selector="actionDidTapRemoveWhiteUid:" destination="QGn-d9-36B" eventType="touchUpInside" id="iel-Dd-7L5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHl-BW-Dm4">
+                                        <rect key="frame" x="216" y="0.0" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="aHl-BW-Dm4" secondAttribute="height" id="FdN-vF-Eql"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_beauty_enabled"/>
+                                        <state key="highlighted" image="btn_beauty_disabled"/>
+                                        <connections>
+                                            <action selector="actionDidTapBueaty:" destination="QGn-d9-36B" eventType="touchUpInside" id="j7M-s7-O6X"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fiJ-yW-QXc">
+                                        <rect key="frame" x="270" y="0.0" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="fiJ-yW-QXc" secondAttribute="height" id="fto-MH-9lf"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_sticker"/>
+                                        <state key="highlighted" image="btn_beauty_disabled"/>
+                                        <connections>
+                                            <action selector="actionDidTapSticker:" destination="QGn-d9-36B" eventType="touchUpInside" id="NhK-3V-oqe"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="PER-Z1-qkW" firstAttribute="height" secondItem="0sd-tw-QDq" secondAttribute="height" id="ggp-L3-bi4"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="qe9-WB-dps">
+                                <rect key="frame" x="16" y="615" width="238" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H9K-3J-fow">
+                                        <rect key="frame" x="0.0" y="3" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="H9K-3J-fow" secondAttribute="height" id="wtP-oo-mvj"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_switch_camera"/>
+                                        <connections>
+                                            <action selector="actionDidTapSwitchCamera:" destination="QGn-d9-36B" eventType="touchUpInside" id="kNf-r3-mbC"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5UE-zy-5fl">
+                                        <rect key="frame" x="50" y="3" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="5UE-zy-5fl" secondAttribute="height" id="Icc-SL-acm"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_audio_enabled"/>
+                                        <state key="selected" image="btn_audio_disabled"/>
+                                        <connections>
+                                            <action selector="actionDidTapMuteAudio:" destination="QGn-d9-36B" eventType="touchUpInside" id="fzh-8u-bVm"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gX-se-ms7">
+                                        <rect key="frame" x="100" y="3" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="8gX-se-ms7" secondAttribute="height" multiplier="1:1" id="RpN-sf-adj"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_video_enabled"/>
+                                        <state key="selected" image="btn_video_disabled"/>
+                                        <connections>
+                                            <action selector="actionDidTapMuteVideo:" destination="QGn-d9-36B" eventType="touchUpInside" id="Dsb-Th-yFe"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h7A-cJ-ToR">
+                                        <rect key="frame" x="150" y="3" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="h7A-cJ-ToR" secondAttribute="height" multiplier="1:1" id="kU1-lf-dYB"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_onmic"/>
+                                        <state key="selected" image="btn_offmic"/>
+                                        <connections>
+                                            <action selector="actionDidTapChangeRole:" destination="QGn-d9-36B" eventType="touchUpInside" id="Yom-J6-FAx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ajw-eS-YGH">
+                                        <rect key="frame" x="200" y="3" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="ajw-eS-YGH" secondAttribute="height" multiplier="1:1" id="5qm-qw-a1V"/>
+                                        </constraints>
+                                        <state key="normal" image="btn_unlock"/>
+                                        <state key="selected" image="btn_lock"/>
+                                        <state key="highlighted" image="lock"/>
+                                        <connections>
+                                            <action selector="actionDidTapLockRoom:" destination="QGn-d9-36B" eventType="touchUpInside" id="dR3-4o-wRo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="101-kj-Nco"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Vre-Rt-6BX" firstAttribute="trailing" secondItem="kyx-TN-Hdq" secondAttribute="trailing" constant="8" id="3l3-9E-Hn2"/>
+                            <constraint firstItem="ubL-tD-VKV" firstAttribute="leading" secondItem="Vre-Rt-6BX" secondAttribute="leading" constant="16" id="AID-dD-ExV"/>
+                            <constraint firstItem="Vre-Rt-6BX" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qe9-WB-dps" secondAttribute="trailing" constant="16" id="CiF-nM-lZZ"/>
+                            <constraint firstItem="qe9-WB-dps" firstAttribute="leading" secondItem="Vre-Rt-6BX" secondAttribute="leading" constant="16" id="Lh8-rl-8jD"/>
+                            <constraint firstItem="S0i-s4-RSN" firstAttribute="bottom" secondItem="kJr-Ey-aPA" secondAttribute="bottom" id="Zob-d3-cYc"/>
+                            <constraint firstItem="kyx-TN-Hdq" firstAttribute="top" secondItem="Vre-Rt-6BX" secondAttribute="top" constant="8" id="a20-tl-Igc"/>
+                            <constraint firstItem="S0i-s4-RSN" firstAttribute="trailing" secondItem="Vre-Rt-6BX" secondAttribute="trailing" id="dzJ-ih-NtQ"/>
+                            <constraint firstItem="qe9-WB-dps" firstAttribute="top" secondItem="ubL-tD-VKV" secondAttribute="bottom" constant="16" id="n55-Ki-uPe"/>
+                            <constraint firstItem="Vre-Rt-6BX" firstAttribute="bottom" secondItem="qe9-WB-dps" secondAttribute="bottom" constant="8" id="sh4-SU-7Ck"/>
+                            <constraint firstItem="S0i-s4-RSN" firstAttribute="leading" secondItem="Vre-Rt-6BX" secondAttribute="leading" id="wYU-T2-qkC"/>
+                            <constraint firstItem="Vre-Rt-6BX" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ubL-tD-VKV" secondAttribute="trailing" constant="16" id="yqx-Hp-pIV"/>
+                            <constraint firstItem="S0i-s4-RSN" firstAttribute="top" secondItem="kJr-Ey-aPA" secondAttribute="top" id="zUB-m8-KRC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Vre-Rt-6BX"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Dyb-ek-0os"/>
+                    <connections>
+                        <outlet property="addBlockListContainer" destination="0sd-tw-QDq" id="uH1-AX-Rhl"/>
+                        <outlet property="addWhiteListContainer" destination="PER-Z1-qkW" id="4UC-hw-Al9"/>
+                        <outlet property="beautyBtn" destination="aHl-BW-Dm4" id="cbt-Af-Mhc"/>
+                        <outlet property="lockRoomBtn" destination="ajw-eS-YGH" id="Zkf-Mh-stH"/>
+                        <outlet property="muteAudioBtn" destination="5UE-zy-5fl" id="BGL-sh-zWH"/>
+                        <outlet property="muteVideoBtn" destination="8gX-se-ms7" id="67J-QG-TcB"/>
+                        <outlet property="onMicBtn" destination="h7A-cJ-ToR" id="SbB-hv-nBV"/>
+                        <outlet property="removeBlockList" destination="FZu-LE-nH5" id="k3r-c5-iuw"/>
+                        <outlet property="removeWhiteList" destination="gVO-zl-iBp" id="UY4-ex-5Vc"/>
+                        <outlet property="stickerBtn" destination="fiJ-yW-QXc" id="uFk-nn-jSo"/>
+                        <outlet property="switchCameraBtn" destination="H9K-3J-fow" id="eeG-FG-QfN"/>
+                        <outlet property="videoView" destination="S0i-s4-RSN" id="uw6-QF-amc"/>
+                        <outletCollection property="bottomFunEreas" destination="ubL-tD-VKV" id="YLS-kX-e8W"/>
+                        <outletCollection property="bottomFunEreas" destination="qe9-WB-dps" id="r1j-NR-Ifc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KW4-z1-HH8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-658" y="-331"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="btn_adduid" width="38" height="38"/>
+        <image name="btn_audio_disabled" width="38" height="38"/>
+        <image name="btn_audio_enabled" width="38" height="38"/>
+        <image name="btn_beauty_disabled" width="38" height="38"/>
+        <image name="btn_beauty_enabled" width="38" height="38"/>
+        <image name="btn_close" width="38" height="38"/>
+        <image name="btn_deleteuid" width="38" height="38"/>
+        <image name="btn_lock" width="38" height="38"/>
+        <image name="btn_offmic" width="38" height="38"/>
+        <image name="btn_onmic" width="38" height="38"/>
+        <image name="btn_sticker" width="76" height="76"/>
+        <image name="btn_switch_camera" width="38" height="38"/>
+        <image name="btn_unlock" width="38" height="38"/>
+        <image name="btn_video_disabled" width="38" height="38"/>
+        <image name="btn_video_enabled" width="38" height="38"/>
+        <image name="lock" width="200" height="200"/>
+    </resources>
+</document>
