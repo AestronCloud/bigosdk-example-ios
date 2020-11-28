@@ -12,6 +12,7 @@
 #import "CSInfoAlert.h"
 #import "CSBaseLiveViewController.h"
 
+static NSString * const kPkBtnTitle = @"PK";
 @interface CSInputChannelNameViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *usernameLB;
@@ -37,6 +38,8 @@
         case CSAppVideoLive: {
             self.textField.placeholder = @"请输入频道名称";
             [self.action1Btn setTitle:@"进入直播" forState:UIControlStateNormal];
+            self.action2Btn.hidden = NO;
+            [self.action2Btn setTitle:kPkBtnTitle forState:UIControlStateNormal];
             break;
         }
         case CSAppAudioLive: {
@@ -57,6 +60,8 @@
         case CSAppVideoLiveBasicBeauty: {
             self.textField.placeholder = @"请输入频道名称";
             [self.action1Btn setTitle:@"进入基础美颜直播" forState:UIControlStateNormal];
+            self.action2Btn.hidden = NO;
+            [self.action2Btn setTitle:kPkBtnTitle forState:UIControlStateNormal];
             break;
         }
         case CSAppVideoCall1V1BasicBeauty: {
@@ -69,12 +74,17 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [super viewWillAppear:animated];
+}
+
 #pragma mark - Action
 - (IBAction)actionDidTapBg:(id)sender {
     [self.textField resignFirstResponder];
 }
 
-- (IBAction)actionDidTapButton1:(id)sender {
+- (IBAction)actionDidTapButton1:(UIButton *)sender {
     [self.textField resignFirstResponder];
     NSString *channelName = self.textField.text;
     if (channelName.length == 0) {
@@ -103,13 +113,17 @@
         case CSAppVideoLiveBasicBeauty:
         case CSAppVideoLive:
         case CSAppAudioLive: {
-            [self cs_goVideoLiveWithChannelName:channelName];
+            if ([sender.titleLabel.text isEqualToString:kPkBtnTitle]) {
+                [self cs_doJumpToLiveVCWithChannelName:channelName role:CSMClientRoleBroadcaster vcName:@"CSPkLiveViewController"];
+            } else {
+                [self cs_goVideoLiveWithChannelName:channelName vcName:nil];
+            }
             break;
         }
         case CSAppVideoCall1V1BasicBeauty:
         case CSAppVideoCall1V1:
         case CSAppAudioCall1V1: {
-            [self cs_doJumpToLiveVCWithChannelName:channelName role:CSMClientRoleBroadcaster];
+            [self cs_doJumpToLiveVCWithChannelName:channelName role:CSMClientRoleBroadcaster vcName:nil];
             break;
         }
         default:
@@ -118,13 +132,13 @@
 }
 
 - (IBAction)actionDidTapButton2:(id)sender {
-    [self.textField resignFirstResponder];
+    
 }
 
 #pragma mark - Action Of Button 1
-- (void)cs_goVideoLiveWithChannelName:(NSString *)channelName {
+- (void)cs_goVideoLiveWithChannelName:(NSString *)channelName vcName:(NSString *)vcName {
     void(^goLive)(CSMClientRole) =^(CSMClientRole role){
-        [self cs_doJumpToLiveVCWithChannelName:channelName role:role];
+        [self cs_doJumpToLiveVCWithChannelName:channelName role:role vcName:vcName];
     };
     
     NSString *model= [[UIDevice currentDevice] model];
@@ -141,12 +155,13 @@
     [self presentViewController:sheet animated:YES completion:nil];
 }
 
-- (void)cs_goAudioLiveWithChannelName:(NSString *)channelName {
-    [self cs_goVideoLiveWithChannelName:channelName];
-}
-
-- (void)cs_doJumpToLiveVCWithChannelName:(NSString *)channelName role:(CSMClientRole)role {
-    CSBaseLiveViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialViewController];
+- (void)cs_doJumpToLiveVCWithChannelName:(NSString *)channelName role:(CSMClientRole)role vcName:(NSString *)vcName {
+    CSBaseLiveViewController *controller;
+    if (vcName) {
+        controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:vcName];
+    } else {
+        controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialViewController];
+    }
     if ([controller isKindOfClass:[CSBaseLiveViewController class]]) {
         [controller setClientRole:role];
         controller.username = [CSDataStore sharedInstance].lastUserName;

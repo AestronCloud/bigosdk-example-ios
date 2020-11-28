@@ -147,4 +147,10 @@
                         vertical:0.5];
 }
 
++ (instancetype)showInfo:(NSString *)info vertical:(CGFloat)height {
+    return [CSInfoAlert showInfo:info
+                          inView:[UIApplication sharedApplication].keyWindow
+                        vertical:height];
+}
+
 @end

@@ -14,6 +14,8 @@
 
 @class CStoreMediaEngineCore;
 @class CSMChannelMicUser;
+@class CSMLocalVideoStats;
+@class CSMLocalAudioStats;
 
 /**
 CStoreMediaEngineCoreDelegate 接口类采用 Delegate 方法用于向 App 发送回调通知。
@@ -88,7 +90,8 @@ CStoreMediaEngineCoreDelegate 接口类采用 Delegate 方法用于向 App 发�
 
 /**
  token已经过期，发出通知
- 此时你应该更新最新的token并通过调用 [CStoreMediaEngineCore renewToken:] 给sdk
+ 
+ 此时你应该更新最新的token并通过调用 [CStoreMediaEngineCore renewToken:] 给sdk，回调该接口前，内部会调用[CStoreMediaEngineCore leaveChannel]。 此时需要生成新的 Token，使用新的 Token 重新加入频道。
  
  @param mediaEngine CStoreMediaEngineCore对象
  @param token 过期token
@@ -255,6 +258,167 @@ CStoreMediaEngineCoreDelegate 接口类采用 Delegate 方法用于向 App 发�
  */
 - (void)mediaEngine:(CStoreMediaEngineCore *)mediaEngine mediaInterruptResumed:(BOOL)success isAudio:(BOOL)isAudio;
 
+/**
+ RTMP 推流状态发生改变回调
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ @param url 推流状态发生改变的 URL 地址。
+ @param state 当前的推流状态，详见 @see CSMRtmpStreamingState
+ @param errorCode 具体的推流错误信息，详见 @see CSMRtmpStreamingErrorCode
+ */
+- (void)mediaEngine:(CStoreMediaEngineCore *)mediaEngine rtmpStreamingChangedToState:(NSString *_Nonnull)url state:(CSMRtmpStreamingState)state errorCode:(CSMRtmpStreamingErrorCode)errorCode;
+
+/**
+ 设置合流转码参数回调
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ */
+- (void)mediaEngineTranscodingUpdated:(CStoreMediaEngineCore *_Nonnull)mediaEngine;
+
+- (void)mediaEngine:(CStoreMediaEngineCore * _Nonnull)mediaEngine someBodyJoinedChannelWithUid:(uint64_t)uid role:(CSMClientRole)role;
+/**
+ 通话音量模式 / 媒体音量模式切换回调
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ @param usingCallMode YES：使用通话音量模式，NO：使用媒体音量模式
+ */
+- (void)mediaEngine:(CStoreMediaEngineCore * _Nonnull)mediaEngine usingCallMode:(BOOL)usingCallMode;
+
+/**
+ 收到远端的媒体次要信息回调
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ @param info 媒体次要信息
+ @param senderUid 发送该媒体次要信息的用户uid
+ */
+- (void)mediaEngine:(CStoreMediaEngineCore * _Nonnull)mediaEngine onRecvMediaSideInfo:(NSString * _Nullable)info withSenderUid:(uint64_t)senderUid;
+
+/**
+ * 采集原始数据回调
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ @param data         采集原始数据
+ @param frameType    视频帧类型,详见 BigoPixelFormat
+ @param width        视频像素宽度
+ @param height       视频像素高度
+ @param bufferLength 数据长度
+ @param rotation     视频旋转角度
+ @param renderTimeMs 回调时间
+ */
+- (void)mediaEngine:(CStoreMediaEngineCore * _Nonnull)mediaEngine onCaptureVideoFrame:(unsigned char *_Nonnull)data frameType:(BigoPixelFormat)frameType width:(int)width height:(int)height bufferLength:(int)bufferLength rotation:(int)rotation renderTimeMs:(uint64_t)renderTimeMs;
+
+/**
+音效文件播放状态通知
+
+@param mediaEngine CStoreMediaEngineCore对象
+@param state 哪种状态
+ 
+ - BigoAudioMixingStatePlaying：音乐文件正常播放，正常调用playEffect/resumeEffect
+ - BigoAudioMixingStatePaused：音乐文件暂停播放
+ - BigoAudioMixingStateStopped：音乐文件停止播放
+ - BigoAudioMixingStateFailed：音乐文件播放失败
+ - BigoAudioMixingStateProgress：音乐文件播放进度回调
+ 
+@param soundId 音效文件id
+@param reason 状态值
+ 
+ - BigoAudioMixingErrorCanNotOpen：state为BigoAudioMixingStateStopped时，表示打开文件失败
+ - BigoAudioMixingErrorInterruptedEOF = 703, state为BigoAudioMixingStateStopped时，表示打开文件异常
+ - BigoAudioMixingPlayEndOfFile：state为BigoAudioMixingStateStopped时，表示文件播放结束
+ - BigoAudioMixingPlayActiveStop：打开文件错误
+ - BigoAudioEffectFileNumFull：打开文件错误
+ - 其他state值，reason为毫秒ms值
+ */
+- (void)mediaEngine:(CStoreMediaEngineCore *_Nonnull)mediaEngine localAudioEffectStateChange:(BigoAudioMixingStateCode)state soundId:(NSInteger)soundId reason:(NSUInteger)reason;
+
+/**
+音乐文件播放状态通知
+
+@param mediaEngine CStoreMediaEngineCore对象
+ @param state 哪种状态
+ 
+  - BigoAudioMixingStatePlaying：音乐文件正常播放，正常调用 startAudioMixing / resumeAudioMixing
+  - BigoAudioMixingStatePaused：音乐文件暂停播放
+  - BigoAudioMixingStateStopped：音乐文件停止播放
+  - BigoAudioMixingStateFailed：音乐文件播放失败
+  - BigoAudioMixingStateProgress：音乐文件播放进度回调
+@param reason 状态值
+ 
+ - BigoAudioMixingErrorCanNotOpen：state为BigoAudioMixingStateStopped时，表示打开文件失败
+ - BigoAudioMixingErrorInterruptedEOF = 703, state为BigoAudioMixingStateStopped时，表示打开文件异常
+ - BigoAudioMixingPlayEndOfFile：state为BigoAudioMixingStateStopped时，表示文件播放结束
+ - BigoAudioMixingPlayActiveStop：打开文件错误
+ - BigoAudioEffectFileNumFull：打开文件错误
+ - 其他state值，reason为毫秒ms值
+*/
+- (void)mediaEngine:(CStoreMediaEngineCore *_Nonnull)mediaEngine localAudioMixingStateDidChanged:(BigoAudioMixingStateCode)state reason:(NSUInteger)reason;
+
+/**
+ 提示频道内谁正在说话、说话者音量及本地用户是否在说话的回调
+
+ @param mediaEngine CStoreMediaEngineCore对象
+ @param uid uint64_t[],说话者的用户 ID, uid = 0表示本地用户
+ @param volume unsigned int []，说话者各自混音后的音量
+ @param vad unsigned int []，本地用户的人声状态，0：本地用户不在说话；1：本地用户在说话
+ @param channelId 频道 ID，表明当前说话者在哪个频道
+ @param totalVolume 混音后的总音量
+*/
+- (void)mediaEngine:(CStoreMediaEngineCore *_Nonnull)mediaEngine reportAudioVolumeIndicationOfSpeakers:(NSArray<NSNumber *> *)uid volume:(NSArray<NSNumber *> *)volume vad:(NSArray<NSNumber *> *)vad channelId:(NSArray<NSString *> *)channelId totalVolume:(NSUInteger)totalVolume;
+
+/**
+ 监测到最活跃用户回调。
+ 
+@param mediaEngine CStoreMediaEngineCore对象
+@param uid 活跃用户的uid
+*/
+- (void)mediaEngine:(CStoreMediaEngineCore *_Nonnull)mediaEngine activeSpeaker:(uint64_t)uid;
+
+/**
+ SDK 通知将要开始采集视频帧，收到该回调后向 SDK 发送的视频帧数据才有效
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ */
+- (void)onStartCustomCaptureVideoWithMediaEngine:(CStoreMediaEngineCore *_Nonnull)mediaEngine;
+
+/**
+ SDK 通知将要停止采集视频帧
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ */
+- (void)onStopCustomCaptureVideoWithMediaEngine:(CStoreMediaEngineCore *_Nonnull)mediaEngine;
+
+/**
+ SDK 通知要修改采集分辨率
+ 
+ SDK内部会综合多种维度对分辨率进行调整，接入方接收到该通知后，需要根据传出的长宽，选择最接近的采集分辨率
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ @param width 分辨率宽度
+ @param height 分辨率调试
+ */
+- (void)mediaEngine:(CStoreMediaEngineCore *_Nonnull)mediaEngine shouldChangeCustomCaptureResolutionToWidth:(int)width height:(int)height;
+
+/**
+ 本地视频流统计信息回调。
+ 
+ 报告更新本地视频统计信息，该回调方法每3秒触发一次。
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ @param stats 本地视频的统计信息: CSMLocalVideoStats
+ */
+- (void)mediaEngine:(CStoreMediaEngineCore *_Nonnull)mediaEngine localVideoStats:(CSMLocalVideoStats *_Nonnull)stats;
+
+/**
+ 本地音频流的统计信息回调。
+ 
+ 该回调描述本地设备发送音频流的统计信息。SDK每3秒触发该回调一次。
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ @param stats 本地音频统计数据: CSMLocalAudioStats
+ */
+- (void)mediaEngine:(CStoreMediaEngineCore *_Nonnull)mediaEngine localAudioStats:(CSMLocalAudioStats *_Nonnull)stats;
+
 @end
 
 #endif /* CStoreMediaEngineCoreDelegate_h */
+

@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CStoreMediaEngineKit/CStoreMediaEngineKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-FOUNDATION_EXPORT NSString * const AppId;
-FOUNDATION_EXPORT NSString * const Cer;
 
 typedef NS_ENUM(NSUInteger, CSApp) {
     CSAppUnkown,
@@ -28,11 +26,16 @@ typedef NS_ENUM(NSUInteger, CSApp) {
 @property(nonatomic, strong)NSString *lastUserName;
 @property(nonatomic, strong)NSString *lastChannelName;
 
+@property(nonatomic, assign)CSMResolutionType maxResolutionType;
+@property(nonatomic, assign)CSMFrameRate maxFrameRate;
+
 + (instancetype)sharedInstance;
 
 - (CSApp)app;
 - (NSString *)welcomeText;
 - (NSString *)powerByText;
+- (NSString *)appId;
+- (NSString *)cer;
 
 @end
 

@@ -7,16 +7,15 @@
 //
 
 #import "CSBaseLiveViewController.h"
-#import "CSExampleTokenManager.h"
 #import "CSInfoAlert.h"
 #import "CSUtils.h"
 #import "CSLiveBaseInfoView.h"
+#import "CSTestArgSettingManager.h"
 
 static NSString *const kUserIdKey = @"kUserIdKey";
 
 @interface CSBaseLiveViewController ()
 
-@property (nonatomic, strong) CSExampleTokenManager *tokenManager;
 
 @end
 
@@ -25,6 +24,11 @@ static NSString *const kUserIdKey = @"kUserIdKey";
 - (void)viewDidLoad {
     [super viewDidLoad];
     _myUid = [[[NSUserDefaults standardUserDefaults] objectForKey:kUserIdKey] longLongValue];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [super viewWillAppear:animated];
 }
 
 - (void)joinChannelWithCompletion:(void (^ _Nullable)(BOOL))completion {
@@ -37,7 +41,7 @@ static NSString *const kUserIdKey = @"kUserIdKey";
         strongSelf->_token = token;
         if (success) {
             // with user account
-            [[CStoreMediaEngineCore sharedSingleton] joinChannelWithUserAccount:strongSelf.username token:token channelName:strongSelf.channelName completion:^(BOOL success, CSMErrorCode resCode, NSString * _Nonnull channel, uint64_t uid, NSInteger useTime) {
+            [[CStoreMediaEngineCore sharedSingleton] joinChannelWithUserAccount:strongSelf.username token:token channelName:strongSelf.channelName extraInfo:TestArg.joinExtraInfo completion:^(BOOL success, CSMErrorCode resCode, NSString * _Nonnull channel, uint64_t uid, NSInteger useTime) {
                 MainThreadBegin
                 NSLog(@"joinChannel, success:%d, rescode:%d", success, resCode);
                 __strong typeof(weakSelf) strongSelf = weakSelf;

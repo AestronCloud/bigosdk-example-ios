@@ -15,11 +15,14 @@
 #import "CSBeautyViewController.h"
 #import "CSBeautyStickerViewController.h"
 #import "CSBeautyManager.h"
+#import "CSVideoChatMiniWindow.h"
+#import "CSDataStore.h"
 
 @interface CSVideoChatViewController ()
 <
 CSLiveDebugViewDataSource,
-CStoreMediaEngineCoreDelegate
+CStoreMediaEngineCoreDelegate,
+CSVideoChatMiniWindowProtocol
 >
 
 @property (weak, nonatomic) IBOutlet GLKView *videoView;
@@ -28,10 +31,11 @@ CStoreMediaEngineCoreDelegate
 @property (weak, nonatomic) IBOutlet UIButton *muteAudioBtn;
 @property (weak, nonatomic) IBOutlet UIButton *muteVideoBtn;
 @property (weak, nonatomic) IBOutlet UIButton *endCallBtn;
-@property (weak, nonatomic) IBOutlet UIControl *miniVideoWindow;
+@property (weak, nonatomic) IBOutlet CSVideoChatMiniWindow *miniVideoWindow;
 @property (weak, nonatomic) IBOutlet UIButton *stickerBtn;
 @property (strong, nonatomic) IBOutletCollection(UIStackView) NSArray *bottomFunEreas;
 @property (weak, nonatomic) IBOutlet UIStackView *previewFunStackView;
+@property (weak, nonatomic) IBOutlet CSButton *beginCallBtn;
 @property (weak, nonatomic) IBOutlet UIButton *quitPreviewButton;
 @property (weak, nonatomic) IBOutlet UIButton *stickerPreviewStickerBtn;
 
@@ -43,6 +47,9 @@ CStoreMediaEngineCoreDelegate
 
 @property (nonatomic, assign) BOOL isAudioMuted;
 @property (nonatomic, assign) BOOL isVideoMuted;
+
+@property (nonatomic, strong) CSMVideoRenderer *bigVideoRender;
+@property (nonatomic, strong) CSMVideoRenderer *miniVideoRender;
 
 @end
 
@@ -59,6 +66,7 @@ CStoreMediaEngineCoreDelegate
     self.stickerPreviewStickerBtn.hidden = YES;
 #endif
     
+    self.miniVideoWindow.delegate = self;
     self.myselfPreferSmall = YES;
     
     //设置debug页面
@@ -69,6 +77,9 @@ CStoreMediaEngineCoreDelegate
     self.mediaEngine.delegate = self;
     [self.mediaEngine setChannelProfile:CSMChannelProfile1v1Call];
     [self.mediaEngine attachRendererView:self.videoView];
+    if ([CSDataStore sharedInstance].maxResolutionType > 0 || [CSDataStore sharedInstance].maxFrameRate > 0) {
+        [self.mediaEngine setAllVideoMaxEncodeParamsWithMaxResolution:[CSDataStore sharedInstance].maxResolutionType maxFrameRate:[CSDataStore sharedInstance].maxFrameRate];
+    }
     
     //请求设备权限
     __weak typeof(self) weakSelf = self;
@@ -78,6 +89,10 @@ CStoreMediaEngineCoreDelegate
         if (!strongSelf) { return; }
         
         if (granted) {
+            if (strongSelf.micUsers.count != 0) { //如果请求权限后，已经有人上下麦，则不再显示预览页面
+                return;
+            }
+            
             // 设置预览画面
             [strongSelf.view setNeedsLayout];
             [strongSelf.view layoutIfNeeded];
@@ -175,6 +190,7 @@ CStoreMediaEngineCoreDelegate
         seatNum++;
         NSLog(@"videoRenderer.frame:%lu, %@", (unsigned long)videoRenderer.seatNum, [NSValue valueWithCGRect:videoRenderer.renderFrame]);
         [renderers addObject:videoRenderer];
+        self.bigVideoRender = videoRenderer;
     }
     uint64_t smallVideoUid = self.micUsers.count >= 2 ? self.micUsers[1].longLongValue : 0;
     if (smallVideoUid != 0) {
@@ -186,8 +202,12 @@ CStoreMediaEngineCoreDelegate
         videoRenderer.seatNum = seatNum;
         NSLog(@"videoRenderer.frame:%lu, %@", (unsigned long)videoRenderer.seatNum, [NSValue valueWithCGRect:videoRenderer.renderFrame]);
         [renderers addObject:videoRenderer];
-//        self.miniVideoWindow.hidden = NO;
+        self.miniVideoRender = videoRenderer;
+        self.miniVideoWindow.hidden = NO;
         self.miniVideoWindow.frame = [self.view convertRect:videoRenderer.renderFrame fromView:self.videoView];
+    } else {
+        self.miniVideoRender = nil;
+        self.miniVideoWindow.hidden = YES;
     }
     
     [self.mediaEngine setVideoRenderers:renderers];
@@ -210,6 +230,34 @@ CStoreMediaEngineCoreDelegate
     MainThreadCommit
 }
 
+#pragma mark - CSVideoChatMiniWindowProtocol
+- (void)miniWindow:(CSVideoChatMiniWindow *)miniWindow preferChangeFrameWithOffsetX:(CGFloat)offsetX OffsetY:(CGFloat)offsetY {
+    //更新小窗视频渲染区域
+    if (self.miniVideoRender) {
+        CGRect preferFrame = CGRectOffset(self.miniVideoWindow.frame, offsetX, offsetY);
+        if (CGRectGetMinX(preferFrame) < 0) { //调整不超出屏幕左侧
+            preferFrame = CGRectOffset(preferFrame, 0 - CGRectGetMinX(preferFrame), 0);
+        }
+        if (CGRectGetMinY(preferFrame) < 0) { //调整不超出屏幕顶部
+            preferFrame = CGRectOffset(preferFrame, 0, 0 - CGRectGetMinY(preferFrame));
+        }
+        if (CGRectGetMaxX(preferFrame) > CGRectGetMaxX(self.miniVideoWindow.superview.bounds)) {  //调整不超出屏幕右侧
+            preferFrame = CGRectOffset(preferFrame, -(CGRectGetMaxX(preferFrame) - CGRectGetMaxX(self.miniVideoWindow.superview.bounds)) , 0);
+        }
+        if (CGRectGetMaxY(preferFrame) > CGRectGetMaxY(self.miniVideoWindow.superview.bounds)) {  //调整不超出屏幕底部
+            preferFrame = CGRectOffset(preferFrame, 0, -(CGRectGetMaxY(preferFrame) - CGRectGetMaxY(self.miniVideoWindow.superview.bounds)));
+        }
+        self.miniVideoRender.renderFrame = preferFrame;
+        self.miniVideoWindow.frame = preferFrame;
+
+        if (self.bigVideoRender) {
+            [self.mediaEngine setVideoRenderers:@[ self.bigVideoRender, self.miniVideoRender ]];
+        } else {
+            [self.mediaEngine setVideoRenderers:@[ self.miniVideoRender ]];
+        }
+    }
+}
+
 #pragma mark - CSLiveDebugViewDataSource
 - (NSString *)mssdkDebugInfoForLiveDebugView:(CSLiveDebugView *)liveDebugView {
     return [self.mediaEngine mssdkDebugInfo];
@@ -218,6 +266,12 @@ CStoreMediaEngineCoreDelegate
 #pragma mark - Action
 - (IBAction)actionDidTapBeginCall:(UIButton *)sender {
     __weak typeof(self) weakSelf = self;
+    //防止快速点击进入1v1视频导致重复joinchannel
+    if (!self.beginCallBtn.enabled) {
+        return;
+    }
+    
+    self.beginCallBtn.enabled = NO;
     [self joinChannelWithCompletion:^(BOOL success) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) { return; }
@@ -228,11 +282,14 @@ CStoreMediaEngineCoreDelegate
             for (UIView *v in strongSelf.bottomFunEreas) {
                 v.hidden = NO;
             }
+        } else {
+            //只在加入频道失败时重新打开按钮响应，加入频道成功的话，该按钮被隐藏，没必要再响应事件
+            strongSelf.beginCallBtn.enabled = NO;
         }
     }];
 }
 
-- (IBAction)actionDidTapMiniVideoWindow:(id)sender {
+- (IBAction)actionDidTapChangeMiniVideo:(id)sender {
     self.myselfPreferSmall = !self.myselfPreferSmall;
     
     if (self.micUsers.count >= 2) {

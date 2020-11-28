@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CStoreMediaEngineKit/CStoreMediaEngineKit.h>
+#import "CSExampleTokenManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) NSString *token;
 @property (nonatomic, assign, readonly) uint64_t myUid;
+
+@property (nonatomic, strong) CSExampleTokenManager *tokenManager;
 
 - (void)joinChannelWithCompletion:(void(^ _Nullable)(BOOL success))completion;
 

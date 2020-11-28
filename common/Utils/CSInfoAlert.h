@@ -11,5 +11,9 @@
 @interface CSInfoAlert : UIView
 
 + (instancetype)showInfo:(NSString*)info;
++ (instancetype)showInfo:(NSString*)info vertical:(CGFloat)height;
++ (instancetype)showInfo:(NSString *)info
+                  inView:(UIView *)view
+                vertical:(CGFloat)height;
 
 @end

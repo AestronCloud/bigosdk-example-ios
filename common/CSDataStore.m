@@ -8,13 +8,17 @@
 
 #import "CSDataStore.h"
 #import "CSUtils.h"
+#import "CSTestArgSettingManager.h"
 
-//请填入在控制台https://console.bigocloud.net生成在AppIdStr和证书
-NSString * const AppId = <#请填入在控制台中拿到的AppId#>;
-NSString * const Cer = <#请填入在控制台中拿到的证书#>;
+static NSString * const kAppId = <#请填入在控制台中拿到的AppId#>;
+static NSString * const kCer = <#请填入在控制台中拿到的证书#>;
 
 static NSString *const kUserAccountKey = @"kUserAccountKey";
 static NSString *const kChannelNameKey = @"kChannelNameKey";
+
+#define CSDataStoreSettingsKeyMaxResolutionType @"CSDataStoreSettingsKeyMaxResolutionType"
+#define CSDataStoreSettingsKeyMaxFrameRate @"CSDataStoreSettingsKeyMaxFrameRate"
+
 
 @implementation CSDataStore
 
@@ -105,6 +109,30 @@ static NSString *const kChannelNameKey = @"kChannelNameKey";
 
 - (NSString *)powerByText {
     return [NSString stringWithFormat:@"Powered by BigoCloud %@", [CSUtils demoVersion]];
+}
+
+- (void)setMaxResolutionType:(CSMResolutionType)maxResolutionType {
+    [[NSUserDefaults standardUserDefaults] setInteger:maxResolutionType forKey:CSDataStoreSettingsKeyMaxResolutionType];
+}
+
+- (CSMResolutionType)maxResolutionType {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:CSDataStoreSettingsKeyMaxResolutionType];
+}
+
+- (void)setMaxFrameRate:(CSMFrameRate)maxFrameRate {
+    [[NSUserDefaults standardUserDefaults] setInteger:maxFrameRate forKey:CSDataStoreSettingsKeyMaxFrameRate];
+}
+
+- (CSMFrameRate)maxFrameRate {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:CSDataStoreSettingsKeyMaxFrameRate];
+}
+
+- (NSString *)appId {
+    return kAppId;
+}
+
+- (NSString *)cer {
+    return kCer;
 }
 
 @end

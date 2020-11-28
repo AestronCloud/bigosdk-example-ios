@@ -10,6 +10,7 @@
 #import "CSDataStore.h"
 #import "CSUtils.h"
 #import "CSInfoAlert.h"
+#import "CSTestArgSettingManager.h"
 
 @interface CSMainViewController ()
 
@@ -31,6 +32,10 @@
     self.usernameTF.text = [CSDataStore sharedInstance].lastUserName;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     if ([identifier isEqualToString:@"goInputChannelName"]) {
         if (self.usernameTF.text.length == 0) {
@@ -41,6 +46,11 @@
     
     [CSDataStore sharedInstance].lastUserName = [CSUtils trimedString:self.usernameTF.text];
     return YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [super viewWillAppear:animated];
 }
 
 #pragma mark - Action

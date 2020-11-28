@@ -16,5 +16,8 @@
 #import <CStoreMediaEngineKit/CSMChannelMicUser.h>
 #import <CStoreMediaEngineKit/CSMVideoRenderer.h>
 #import <CStoreMediaEngineKit/CSMUserInfo.h>
-
+#import <CStoreMediaEngineKit/CSMLiveTranscoding.h>
+#import <CStoreMediaEngineKit/CSMVideoCanvas.h>
+#import <CStoreMediaEngineKit/CSMLocalAudioStats.h>
+#import <CStoreMediaEngineKit/CSMLocalVideoStats.h>
 #endif /* CStoreMediaEngineKit_h */

@@ -149,6 +149,60 @@
     }
 }
 
++ (void)showAlertWithTitle:(NSString *)title
+                       msg:(NSString *)msg
+            fromController:(UIViewController *)fromVC
+                sureAction:(void (^)(void))sureAction {
+    [self showAlertWithTitle:title
+                         msg:msg
+              fromController:fromVC
+                  sureAction:sureAction
+                cancelAction:nil];
+}
+
++ (void)showAlertWithTitle:(NSString *)title
+                       msg:(NSString *)msg
+            fromController:(UIViewController *)fromVC
+                sureAction:(void (^)(void))sureAction cancelAction:(void (^)(void))cancelAction {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        if (cancelAction) {
+            cancelAction();
+        }
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (sureAction) {
+            sureAction();
+        }
+    }]];
+    [fromVC presentViewController:alert animated:YES completion:nil];
+}
+
++ (void)addWhiteFlagOnPixelBuffer:(CVPixelBufferRef)ref {
+    const int kBytesPerPixel = 4;
+    CVPixelBufferLockBaseAddress( ref, 0 );
+    int bufferWidth = (int)CVPixelBufferGetWidth( ref );
+    int bufferHeight = (int)CVPixelBufferGetHeight( ref );
+    size_t bytesPerRow = CVPixelBufferGetBytesPerRow( ref );
+    uint8_t *baseAddress = CVPixelBufferGetBaseAddress( ref );
+    
+    for ( int row = 0; row < bufferHeight; row++ )
+    {
+        uint8_t *pixel = baseAddress + row * bytesPerRow;
+        for ( int column = 0; column < bufferWidth; column++ )
+        {
+            if ((row < 100) && (column < 100)) {
+                pixel[0] = 255; // BGRA, Blue value
+                pixel[1] = 255; // Green value
+                pixel[2] = 255; // Red value
+            }
+            pixel += kBytesPerPixel;
+        }
+    }
+    
+    CVPixelBufferUnlockBaseAddress( ref, 0 );
+}
+
 @end
 
 @implementation CSButton

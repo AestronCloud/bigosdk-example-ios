@@ -7,16 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+@class CSAudioLiveSeatCell;
 
 NS_ASSUME_NONNULL_BEGIN
 
-IB_DESIGNABLE
-@interface CSAudioLiveSeatCell : UIView
+@protocol CSAudioLiveSeatCellDelegate <NSObject>
+
+- (void)actionDidTapMuteOfAudioLiveSeatCell:(CSAudioLiveSeatCell *)cell;
+
+@end
+
+@interface CSAudioLiveSeatCell : UICollectionViewCell
 
 @property(nonatomic, assign, readonly)uint64_t onMicUid;
 
-- (void)setOnMicUid:(uint64_t)onMicUid myUid:(uint64_t)myUid;
-- (void)setUid:(uint64_t)uid speaking:(BOOL)speaking;
+@property(nonatomic, weak)id<CSAudioLiveSeatCellDelegate> delegate;
+
+- (void)setOnMicUid:(uint64_t)onMicUid myUid:(uint64_t)myUid speaking:(BOOL)speaking mute:(BOOL)mute;
 
 @end
 

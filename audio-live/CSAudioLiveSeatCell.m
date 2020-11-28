@@ -17,75 +17,39 @@
 
 @property (nonatomic, assign) uint64_t myUid;
 
-@property (nonatomic, assign) BOOL isForbiddedAudio;
-
 @end
 
 @implementation CSAudioLiveSeatCell
 
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
-    if (self) {
-        [self cs_loadFromNib];
-    }
-    return self;
-}
-
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self cs_loadFromNib];
+        self.forbiddenMicBtn.hidden = YES;
     }
     return self;
 }
 
-- (void)cs_loadFromNib {
-    UIView *v = [[UINib nibWithNibName:NSStringFromClass([self class]) bundle:[NSBundle bundleForClass:[self class]]] instantiateWithOwner:self options:nil].firstObject;
-    if (v) {
-        [self addSubview:v];
-        v.frame = self.bounds;
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    }
-    self.forbiddenMicBtn.hidden = YES;
-}
-
-- (void)setOnMicUid:(uint64_t)onMicUid myUid:(uint64_t)myUid {
+- (void)setOnMicUid:(uint64_t)onMicUid myUid:(uint64_t)myUid speaking:(BOOL)speaking mute:(BOOL)mute {
     _onMicUid = onMicUid;
     self.myUid = myUid;
     
     if (onMicUid > 0) {
         self.uidLabel.text = [NSString stringWithFormat:@"%@%@", myUid == onMicUid ? @"我 " : @"", @(onMicUid).stringValue];
         self.forbiddenMicBtn.hidden = NO;
-        self.forbiddenMicBtn.selected = NO;
+        self.forbiddenMicBtn.selected = mute;
+        self.speakingBtn.hidden = !speaking;
     } else {
         self.uidLabel.text = @"";
         self.forbiddenMicBtn.hidden = YES;
+        self.speakingBtn.hidden = YES;
     }
-}
-
-- (void)setUid:(uint64_t)uid speaking:(BOOL)speaking {
-    if (uid != self.onMicUid) {
-        return;
-    }
-    
-    self.speakingBtn.hidden = !speaking;
 }
 
 #pragma mark - Action
 - (IBAction)actionDidTapForbiddenMic:(id)sender {
-    if (self.onMicUid) {
-        self.isForbiddedAudio = !self.isForbiddedAudio;
-        if (self.myUid == self.onMicUid) {
-            [[CStoreMediaEngineCore sharedSingleton] muteLocalAudioStream:self.isForbiddedAudio];
-        }
-        [[CStoreMediaEngineCore sharedSingleton] muteRemoteAudioStream:self.onMicUid mute:self.isForbiddedAudio];
+    if ([self.delegate respondsToSelector:@selector(actionDidTapMuteOfAudioLiveSeatCell:)]) {
+        [self.delegate actionDidTapMuteOfAudioLiveSeatCell:self];
     }
-}
-
-#pragma mark - Getter
-- (void)setIsForbiddedAudio:(BOOL)isForbiddedAudio {
-    _isForbiddedAudio = isForbiddedAudio;
-    self.forbiddenMicBtn.selected = _isForbiddedAudio;
 }
 
 @end

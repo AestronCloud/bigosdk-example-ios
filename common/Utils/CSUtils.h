@@ -58,6 +58,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIEdgeInsets)safeEreaInsetsOfView:(UIView *)view;
 
++ (void)showAlertWithTitle:(NSString * _Nullable)title
+                       msg:(NSString * _Nullable)msg
+            fromController:(UIViewController *)fromVC
+                sureAction:(void(^)(void))sureAction;
+
++ (void)showAlertWithTitle:(NSString * _Nullable)title
+                       msg:(NSString * _Nullable)msg
+            fromController:(UIViewController *)fromVC
+                sureAction:(void(^)(void))sureAction
+              cancelAction:(void(^)(void))cancelAction;
+
++ (void)addWhiteFlagOnPixelBuffer:(CVPixelBufferRef)ref;
+
 @end
 
 IB_DESIGNABLE

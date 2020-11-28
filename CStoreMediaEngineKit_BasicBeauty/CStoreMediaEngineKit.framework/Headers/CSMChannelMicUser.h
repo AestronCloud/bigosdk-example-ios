@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) int32_t timestamp;
 /// 频道名
 @property (nonatomic, strong, readonly) NSString *channelName;
+/// 进房额外信息
+@property (nonatomic, strong, readonly) NSString * extraInfo;
 
 + (instancetype)channelMicUserWithMicLinkSeatUserInfo:(BSMicLinkSeatUserInfo *)micLinkSeatUserInfo;
 

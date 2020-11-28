@@ -72,7 +72,7 @@
     invocation.selector = selector;
     [invocation setArgument:&uid atIndex:2];
     [invocation setArgument:&channelName atIndex:3];
-    NSString *cer = Cer;
+    NSString *cer = [CSDataStore sharedInstance].cer;
     [invocation setArgument:&cer atIndex:4];
     [invocation setArgument:&completion atIndex:5];
     [invocation invoke];

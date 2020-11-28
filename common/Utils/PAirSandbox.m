@@ -148,6 +148,19 @@ typedef enum : NSUInteger {
     
     NSError* err = nil;
     NSArray* paths = [fm contentsOfDirectoryAtPath:targetPath error:&err];
+    
+    paths = [paths sortedArrayUsingComparator:^NSComparisonResult(NSString *  _Nonnull obj1, NSString *  _Nonnull obj2) {
+        NSString *ojb1FullPath = [targetPath stringByAppendingPathComponent:obj1];
+        NSString *obj2FullPath = [targetPath stringByAppendingPathComponent:obj2];
+        NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:ojb1FullPath error:nil];
+        NSDate *date = [attrs objectForKey:NSFileModificationDate];
+        
+        NSDictionary *attrs2 = [[NSFileManager defaultManager] attributesOfItemAtPath:obj2FullPath error:nil];
+        NSDate *date2 = [attrs2 objectForKey:NSFileModificationDate];
+        
+        return [date2 compare:date];
+    }];
+    
     for (NSString* path in paths) {
         
         if ([[path lastPathComponent] hasPrefix:@"."]) {
