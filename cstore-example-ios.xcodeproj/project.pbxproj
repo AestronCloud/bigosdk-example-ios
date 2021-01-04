@@ -524,6 +524,18 @@
 		65186ED5253FDB55000E9F85 /* effect2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 65186ED1253FDB55000E9F85 /* effect2.wav */; };
 		65186ED6253FDB55000E9F85 /* effect1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 65186ED2253FDB55000E9F85 /* effect1.wav */; };
 		65186ED7253FDB55000E9F85 /* song_yijianmei.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 65186ED3253FDB55000E9F85 /* song_yijianmei.mp3 */; };
+		D945DF5D257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF5C257CD5E000FC52AE /* CSVoiceChangerViewController.m */; };
+		D945DF5E257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF5C257CD5E000FC52AE /* CSVoiceChangerViewController.m */; };
+		D945DF5F257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF5C257CD5E000FC52AE /* CSVoiceChangerViewController.m */; };
+		D945DF60257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF5C257CD5E000FC52AE /* CSVoiceChangerViewController.m */; };
+		D945DF61257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF5C257CD5E000FC52AE /* CSVoiceChangerViewController.m */; };
+		D945DF62257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF5C257CD5E000FC52AE /* CSVoiceChangerViewController.m */; };
+		D945DF71257CE12900FC52AE /* CSDropdownListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF6F257CE12800FC52AE /* CSDropdownListView.m */; };
+		D945DF72257CE12900FC52AE /* CSDropdownListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF6F257CE12800FC52AE /* CSDropdownListView.m */; };
+		D945DF73257CE12900FC52AE /* CSDropdownListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF6F257CE12800FC52AE /* CSDropdownListView.m */; };
+		D945DF74257CE12900FC52AE /* CSDropdownListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF6F257CE12800FC52AE /* CSDropdownListView.m */; };
+		D945DF75257CE12900FC52AE /* CSDropdownListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF6F257CE12800FC52AE /* CSDropdownListView.m */; };
+		D945DF76257CE12900FC52AE /* CSDropdownListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D945DF6F257CE12800FC52AE /* CSDropdownListView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -791,6 +803,10 @@
 		65186ED1253FDB55000E9F85 /* effect2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = effect2.wav; sourceTree = "<group>"; };
 		65186ED2253FDB55000E9F85 /* effect1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = effect1.wav; sourceTree = "<group>"; };
 		65186ED3253FDB55000E9F85 /* song_yijianmei.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song_yijianmei.mp3; sourceTree = "<group>"; };
+		D945DF5B257CD5E000FC52AE /* CSVoiceChangerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVoiceChangerViewController.h; sourceTree = "<group>"; };
+		D945DF5C257CD5E000FC52AE /* CSVoiceChangerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVoiceChangerViewController.m; sourceTree = "<group>"; };
+		D945DF6F257CE12800FC52AE /* CSDropdownListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSDropdownListView.m; sourceTree = "<group>"; };
+		D945DF70257CE12900FC52AE /* CSDropdownListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSDropdownListView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -996,6 +1012,9 @@
 				16F32F1624D3EE1B00F218BD /* CSBaseLiveViewController.m */,
 				16AA4C7C25400DEC00F84BC2 /* CSMusicViewController.h */,
 				16AA4C7D25400DEC00F84BC2 /* CSMusicViewController.m */,
+				D945DF5B257CD5E000FC52AE /* CSVoiceChangerViewController.h */,
+				D945DF5C257CD5E000FC52AE /* CSVoiceChangerViewController.m */,
+				D945DF6E257CDFFD00FC52AE /* DropdownList */,
 				164FAF7C24CE839100966726 /* CSDataStore.h */,
 				164FAF7D24CE839100966726 /* CSDataStore.m */,
 				169DD32724B80DB00015444B /* AppDelegate.h */,
@@ -1252,6 +1271,15 @@
 				65186ED3253FDB55000E9F85 /* song_yijianmei.mp3 */,
 			);
 			path = soundFile;
+			sourceTree = "<group>";
+		};
+		D945DF6E257CDFFD00FC52AE /* DropdownList */ = {
+			isa = PBXGroup;
+			children = (
+				D945DF70257CE12900FC52AE /* CSDropdownListView.h */,
+				D945DF6F257CE12800FC52AE /* CSDropdownListView.m */,
+			);
+			path = DropdownList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1622,6 +1650,7 @@
 				164FAF4F24CB1FB200966726 /* CSAudioCallChatViewController.m in Sources */,
 				164FAF4924CAFF7900966726 /* CSUtils.m in Sources */,
 				1691265624CEA63500DE4637 /* CSInputChannelNameViewController.m in Sources */,
+				D945DF60257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */,
 				16F3DC9F2521F037001D04EF /* MJPropertyType.m in Sources */,
 				16E970E22509DC54008BD347 /* mz_strm_mem.c in Sources */,
 				164FAF8224CE860F00966726 /* AppDelegate.m in Sources */,
@@ -1643,6 +1672,7 @@
 				16E971182509DC54008BD347 /* SSZipArchive.m in Sources */,
 				16F3DCF225220764001D04EF /* CSDebugViewController.m in Sources */,
 				16F3DCAB2521F037001D04EF /* MJProperty.m in Sources */,
+				D945DF74257CE12900FC52AE /* CSDropdownListView.m in Sources */,
 				16E970DC2509DC54008BD347 /* mz_crypt_apple.c in Sources */,
 				16E970F42509DC54008BD347 /* mz_compat.c in Sources */,
 				16F32F1A24D3EE4200F218BD /* CSBaseLiveViewController.m in Sources */,
@@ -1671,10 +1701,12 @@
 				169DD33A24B80DB10015444B /* main.m in Sources */,
 				16F3DCBA2521F037001D04EF /* NSObject+MJProperty.m in Sources */,
 				16E970F72509DC54008BD347 /* mz_os.c in Sources */,
+				D945DF71257CE12900FC52AE /* CSDropdownListView.m in Sources */,
 				16E970FD2509DC54008BD347 /* mz_os_posix.c in Sources */,
 				1691265324CEA63500DE4637 /* CSInputChannelNameViewController.m in Sources */,
 				16B18F6D24E130A2004319B4 /* CSBeautySkinDataSource.m in Sources */,
 				16E970D32509DC54008BD347 /* mz_zip_rw.c in Sources */,
+				D945DF5D257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */,
 				16B18F7324E166E9004319B4 /* CSBeautyStickerViewController.m in Sources */,
 				16F3DCA82521F037001D04EF /* MJProperty.m in Sources */,
 				16E971032509DC54008BD347 /* mz_strm_buf.c in Sources */,
@@ -1743,10 +1775,12 @@
 				16B18FA924E26F88004319B4 /* CSBeautySkinDataSource.m in Sources */,
 				16E970D52509DC54008BD347 /* mz_zip_rw.c in Sources */,
 				16F3DCAA2521F037001D04EF /* MJProperty.m in Sources */,
+				D945DF5F257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */,
 				16B18FAB24E26F88004319B4 /* CSBeautyStickerViewController.m in Sources */,
 				16F3DCDA2521F037001D04EF /* MJFoundation.m in Sources */,
 				16E971052509DC54008BD347 /* mz_strm_buf.c in Sources */,
 				16F3DC9E2521F037001D04EF /* MJPropertyType.m in Sources */,
+				D945DF73257CE12900FC52AE /* CSDropdownListView.m in Sources */,
 				16ACD75324C849EC00CEEAAF /* CSAccessPermissionsManager.m in Sources */,
 				16E970B72509DC54008BD347 /* mz_strm_os_posix.c in Sources */,
 				16B18FAA24E26F88004319B4 /* CSBeautyBodyDataSource.m in Sources */,
@@ -1785,8 +1819,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D945DF5E257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */,
 				164FAF8024CE839100966726 /* CSDataStore.m in Sources */,
 				16F3DCB52521F037001D04EF /* MJExtensionConst.m in Sources */,
+				D945DF72257CE12900FC52AE /* CSDropdownListView.m in Sources */,
 				16ACD7AA24C98D6300CEEAAF /* CSExampleTokenManager.m in Sources */,
 				16E970B62509DC54008BD347 /* mz_strm_os_posix.c in Sources */,
 				16ACD7AD24C98D6300CEEAAF /* PAirSandbox.m in Sources */,
@@ -1857,10 +1893,12 @@
 				16D643B524EBB0F600D2DE2C /* CSBeautyBaseDataSource.m in Sources */,
 				16F3DCBE2521F037001D04EF /* NSObject+MJProperty.m in Sources */,
 				16D643B624EBB0F600D2DE2C /* CSInfoAlert.m in Sources */,
+				D945DF75257CE12900FC52AE /* CSDropdownListView.m in Sources */,
 				16D643B724EBB0F600D2DE2C /* main.m in Sources */,
 				16E970FB2509DC54008BD347 /* mz_os.c in Sources */,
 				16E971012509DC54008BD347 /* mz_os_posix.c in Sources */,
 				16D643B824EBB0F600D2DE2C /* CSInputChannelNameViewController.m in Sources */,
+				D945DF61257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */,
 				16D643B924EBB0F600D2DE2C /* CSBeautySkinDataSource.m in Sources */,
 				16F3DCAC2521F037001D04EF /* MJProperty.m in Sources */,
 				16E970D72509DC54008BD347 /* mz_zip_rw.c in Sources */,
@@ -1928,6 +1966,7 @@
 				16D6440B24EBB10200D2DE2C /* AppDelegate.m in Sources */,
 				16D6440C24EBB10200D2DE2C /* CSBeautySkinDataSource.m in Sources */,
 				16E970D82509DC54008BD347 /* mz_zip_rw.c in Sources */,
+				D945DF62257CD5E000FC52AE /* CSVoiceChangerViewController.m in Sources */,
 				16EE4F3F2565241F00C0F5F6 /* CSCaptureDeviceCamera.m in Sources */,
 				16F3DCAD2521F037001D04EF /* MJProperty.m in Sources */,
 				16D6440D24EBB10200D2DE2C /* CSBeautyStickerViewController.m in Sources */,
@@ -1939,6 +1978,7 @@
 				16D6440F24EBB10200D2DE2C /* CSBeautyBodyDataSource.m in Sources */,
 				16E970CC2509DC54008BD347 /* mz_zip.c in Sources */,
 				16F3DC5F2521DC09001D04EF /* FXForms.m in Sources */,
+				D945DF76257CE12900FC52AE /* CSDropdownListView.m in Sources */,
 				16F3DCB32521F037001D04EF /* NSObject+MJCoding.m in Sources */,
 				16F3DCD12521F037001D04EF /* MJPropertyKey.m in Sources */,
 				16F3DCF425220764001D04EF /* CSDebugViewController.m in Sources */,
@@ -2434,7 +2474,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2M54Z55UZF;
+				DEVELOPMENT_TEAM = 4B9R9MYP46;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/cstoresdk",
@@ -2458,7 +2498,7 @@
 					"$(PROJECT_DIR)/common/SSZipArchive/ios",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "www.whu.zk4-.";
+				PRODUCT_BUNDLE_IDENTIFIER = "www.whu.zk4-.-2";
 				PRODUCT_NAME = "多人直播";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

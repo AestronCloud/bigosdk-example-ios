@@ -71,6 +71,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)addWhiteFlagOnPixelBuffer:(CVPixelBufferRef)ref;
 
++ (NSString *)hexStringFromData:(NSData *)data;
++ (NSData *)dataFromHexString:(NSString *)hexString;
+
 @end
 
 IB_DESIGNABLE

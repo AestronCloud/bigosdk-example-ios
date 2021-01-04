@@ -11,6 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CStoreMediaEngineCoreEnums.h"
+#import <CoreMedia/CoreMedia.h>
 
 @class CStoreMediaEngineCore;
 @class CSMChannelMicUser;
@@ -291,7 +292,7 @@ CStoreMediaEngineCoreDelegate 接口类采用 Delegate 方法用于向 App 发�
  @param info 媒体次要信息
  @param senderUid 发送该媒体次要信息的用户uid
  */
-- (void)mediaEngine:(CStoreMediaEngineCore * _Nonnull)mediaEngine onRecvMediaSideInfo:(NSString * _Nullable)info withSenderUid:(uint64_t)senderUid;
+- (void)mediaEngine:(CStoreMediaEngineCore * _Nonnull)mediaEngine onRecvMediaSideInfo:(NSData * _Nullable)info withSenderUid:(uint64_t)senderUid;
 
 /**
  * 采集原始数据回调
@@ -306,6 +307,15 @@ CStoreMediaEngineCoreDelegate 接口类采用 Delegate 方法用于向 App 发�
  @param renderTimeMs 回调时间
  */
 - (void)mediaEngine:(CStoreMediaEngineCore * _Nonnull)mediaEngine onCaptureVideoFrame:(unsigned char *_Nonnull)data frameType:(BigoPixelFormat)frameType width:(int)width height:(int)height bufferLength:(int)bufferLength rotation:(int)rotation renderTimeMs:(uint64_t)renderTimeMs;
+
+/**
+ * 采集原始数据回调
+ 
+ @param mediaEngine CStoreMediaEngineCore对象
+ @param sampleBuffer 采集原始数据
+ @param renderTimeMs 回调时间
+ */
+- (void)mediaEngine:(CStoreMediaEngineCore * _Nonnull)mediaEngine onCaptureVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer renderTimeMs:(uint64_t)renderTimeMs;
 
 /**
 音效文件播放状态通知

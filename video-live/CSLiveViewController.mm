@@ -21,6 +21,7 @@
 #import "CSCaptureDeviceCamera.h"
 #import "BigoAudioProcessing.hpp"
 #import "CSMusicViewController.h"
+#import "CSVoiceChangerViewController.h"
 #import <CStoreMediaEngineKit/CSMVideoCanvas.h>
 #import <AVFoundation/AVFoundation.h>
 #define kRtmpUrl @"rtmp://169.136.125.28/test/test2"
@@ -30,7 +31,8 @@
 CSLiveDebugViewDataSource,
 CStoreMediaEngineCoreDelegate,
 CSCaptureDeviceDataOutputPixelBufferDelegate,
-CSMusicViewControllerDelegate
+CSMusicViewControllerDelegate,
+CSVoiceChangerViewControllerDelegate
 >
 
 @property (weak, nonatomic) IBOutlet GLKView *videoView;
@@ -47,6 +49,7 @@ CSMusicViewControllerDelegate
 @property (weak, nonatomic) IBOutlet UIButton *onMicBtn;
 @property (weak, nonatomic) IBOutlet UIButton *earBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *setIsCallModeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *voiceChangerBtn;
 @property (nonatomic, strong) UIButton *pauseAllEffectButton; // 暂停所有音效
 @property (nonatomic, strong) UIButton *resumeAllEffectButton; // 恢复播放所有音效
 @property (nonatomic, strong) UIButton *stopAllEffectButton; // 恢复播放所有音效
@@ -81,6 +84,8 @@ CSMusicViewControllerDelegate
 @property(nonatomic, assign)BOOL customCapture;
 
 @property (nonatomic, strong)CSMusicViewController *musicViewController;
+
+@property (nonatomic, strong)CSVoiceChangerViewController *voiceChangerViewController;
 
 @property(nonatomic, strong)CSMVideoCanvas *previewCanvas;
 @property(nonatomic, strong)NSMutableDictionary<NSNumber *, CSMVideoCanvas *> *remoteCanvas;
@@ -160,12 +165,18 @@ CSMusicViewControllerDelegate
         }];
     }
     
+    if (TestArg.countryCode.length > 0) {
+        CSAppConfigure* configs = [[CSAppConfigure alloc] init];
+        [configs setCountryCode:TestArg.countryCode];
+        [self.mediaEngine setAppConfigure:configs];
+    }
+    
     __weak typeof(self) weakSelf = self;
     [self joinChannelWithCompletion:^(BOOL success) {
         __strong typeof(weakSelf) self = weakSelf;
         if (!self) { return; }
         
-        [BigoAudioProcessing  registerAudioPreprocessing:self.mediaEngine];
+//        [BigoAudioProcessing  registerAudioPreprocessing:self.mediaEngine];
         [self.mediaEngine enableAudioVolumeIndication:200 smooth:3 report_vad:FALSE];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[CSBeautyManager sharedInstance] prepare];
@@ -229,6 +240,7 @@ CSMusicViewControllerDelegate
 
 //退房
 - (void)leaveRoom {
+    [BigoAudioProcessing  deregisterAudioPreprocessing:self.mediaEngine];
     [[CSBeautyManager sharedInstance] unprepare];
     [self.mediaEngine leaveChannel];
     self.mediaEngine.delegate = nil;
@@ -251,6 +263,7 @@ CSMusicViewControllerDelegate
     self.muteAudioBtn.hidden = !isBroadcaster;
     self.muteVideoBtn.hidden = !isBroadcaster;
     self.lockRoomBtn.hidden = !isBroadcaster;
+    self.voiceChangerBtn.hidden = !isBroadcaster;
     
     self.addWhiteListContainer.hidden = self.removeWhiteList.hidden = !isBroadcaster || !self.isLocked;
     self.addBlockListContainer.hidden = self.removeBlockList.hidden = !isBroadcaster || self.isLocked;
@@ -514,6 +527,43 @@ CSMusicViewControllerDelegate
     }
 }
 
+- (IBAction)actionDidTapVoiceChanger:(id)sender {
+    if (!self.voiceChangerViewController) {
+        self.voiceChangerViewController = [[UIStoryboard storyboardWithName:@"common" bundle:nil]
+                                           instantiateViewControllerWithIdentifier:NSStringFromClass([CSVoiceChangerViewController class])];
+        self.voiceChangerViewController.delegate = self;
+    }
+    
+    if ([self.voiceChangerViewController.view superview]) {
+        [self.voiceChangerViewController.view removeFromSuperview];
+    } else {
+        [self.view addSubview:self.voiceChangerViewController.view];
+    }
+}
+
+- (IBAction)actionDidTapSEI:(UIButton *)sender {
+    //前16个字节(3c131e191618491c1a33151e1f12534d)是uuid，后3个字节选了非utf-8编码的数，用于测试非utf-8编码的字节流能正常传递
+    NSString *audioSEIHexString = @"0x3c 0x13 0x1e 0x19 0x16 0x18 0x49 0x1c 0x1a 0x33 0x15 0x1e 0x1f 0x12 0x53 0x4d 0x81 0x40 0x53";
+    NSString *videoSEIHexString = @"0x3c 0x13 0x1e 0x19 0x16 0x18 0x49 0x1c 0x1a 0x33 0x15 0x1e 0x1f 0x12 0x53 0x4d 0x81 0x40 0x57";
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"发送SEI(输入16进制字节流数据，前16个字节是uuid)" message:[NSString stringWithFormat:@"音频SEI:\n%@\n视频SEI:\n%@", audioSEIHexString, videoSEIHexString] preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"通过音频发送" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        SendSEIWithHexString(audioSEIHexString, YES);
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"通过视频发送" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        SendSEIWithHexString(videoSEIHexString, NO);
+    }]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+static inline void SendSEIWithHexString(NSString *hexString, BOOL audioOrVideo) {
+    [[CStoreMediaEngineCore sharedSingleton] setMediaSideFlags:YES onlyAudioPublish:audioOrVideo seiSendType:0];
+    NSLog(@"send sei:%@", hexString);
+    [[CStoreMediaEngineCore sharedSingleton] sendMediaSideInfo:[CSUtils dataFromHexString:hexString]];
+}
+
 #pragma mark - Privacy Helper
 - (void)cs_showPrivacyTextFieldAlertWithText:(NSString *)text sureAction:(void(^)(uint64_t uid))sureAction {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:text preferredStyle:UIAlertControllerStyleAlert];
@@ -656,19 +706,13 @@ CSMusicViewControllerDelegate
         return [@(obj1.uid) compare:@(obj2.uid)];
     }];
     NSUInteger micUserCount = sortedMicUsers.count;
-
-    if (self.clientRole == CSMClientRoleBroadcaster) {
-        //自己在大窗或小窗时，指定不同的分辨率
-        if (sortedMicUsers.count > 0 && self.myUid == sortedMicUsers.firstObject.uid) {
-            [self.mediaEngine setAllVideoMaxEncodeParamsWithMaxResolution:CSMResolutionType1280x720 maxFrameRate:CSMFrameRate24];
-        } else {
-            [self.mediaEngine setAllVideoMaxEncodeParamsWithMaxResolution:CSMResolutionType480x270 maxFrameRate:CSMFrameRate24];
-        }
-    }
     
     if (TestArg.multiViewRenderMode) {
+        static bool firstChildIsBigWindowAndIsMe;
+        firstChildIsBigWindowAndIsMe = false;
         [sortedMicUsers enumerateObjectsUsingBlock:^(CSMChannelMicUser * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.uid == self.myUid) {
+                firstChildIsBigWindowAndIsMe = (idx == 0);
                 self.previewCanvas = [self csm_createCanvasOfUid:obj.uid atIndex:idx totalCount:micUserCount curCanvas:self.previewCanvas];
                 [self.mediaEngine setupLocalVideo:self.previewCanvas];
             } else {
@@ -678,6 +722,24 @@ CSMusicViewControllerDelegate
                 self.remoteCanvas[@(obj.uid)] = canvas;
             }
         }];
+        CSMResolutionType res;
+        if (micUserCount <= 3) {
+            if (firstChildIsBigWindowAndIsMe) {
+                res = CSMResolutionType1280x720;
+            } else {
+                res = CSMResolutionType320x180;
+            }
+        } else if (micUserCount == 4) {
+            res = CSMResolution_3to4_high;
+        } else if (micUserCount >= 5 && micUserCount <= 6) {
+            res = CSMResolution_5to6_high;
+        } else if (micUserCount >= 7 && micUserCount <= 9) {
+            res = CSMResolution_7to9_high;
+        } else {
+            res = CSMResolutionType320x180;
+        }
+        [self.mediaEngine setAllVideoMaxEncodeParamsWithMaxResolution:res maxFrameRate:CSMFrameRate24];
+        
         if (sortedMicUsers.count <= 3) {
             //大窗放在最底下
             for (CSMChannelMicUser *micUser in [sortedMicUsers reverseObjectEnumerator]) {
@@ -693,6 +755,14 @@ CSMusicViewControllerDelegate
             }
         }
     } else {
+        if (self.clientRole == CSMClientRoleBroadcaster) {
+            //自己在大窗或小窗时，指定不同的分辨率
+            if (sortedMicUsers.count > 0 && self.myUid == sortedMicUsers.firstObject.uid) {
+                [self.mediaEngine setAllVideoMaxEncodeParamsWithMaxResolution:CSMResolutionType1280x720 maxFrameRate:CSMFrameRate24];
+            } else {
+                [self.mediaEngine setAllVideoMaxEncodeParamsWithMaxResolution:CSMResolutionType480x270 maxFrameRate:CSMFrameRate24];
+            }
+        }
         NSMutableArray<CSMVideoRenderer *> *renderers = [NSMutableArray array];
         [sortedMicUsers enumerateObjectsUsingBlock:^(CSMChannelMicUser * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             CSMVideoRenderer *videoRenderer = [[CSMVideoRenderer alloc] init];
@@ -823,6 +893,7 @@ CSMusicViewControllerDelegate
 
 - (void)mediaEngine:(CStoreMediaEngineCore *)mediaEngine tokenPrivilegeExpired:(NSString *)token {
     MainThreadBegin
+    
     //注意：仅用于demo调用，正式环境中，需要在接入方后台服务器部署Token 生成器生成 Token
     __weak typeof(self) weakSelf = self;
     [self.tokenManager getTokenWithUid:self.myUid channelName:self.channelName userAccount:self.username completion:^(BOOL success, NSString * _Nonnull token) {
@@ -854,9 +925,11 @@ CSMusicViewControllerDelegate
     MainThreadCommit
 }
 
-- (void)mediaEngine:(CStoreMediaEngineCore *)mediaEngine onRecvMediaSideInfo:(NSString *)info withSenderUid:(uint64_t)senderUid {
+- (void)mediaEngine:(CStoreMediaEngineCore *)mediaEngine onRecvMediaSideInfo:(NSData *)info withSenderUid:(uint64_t)senderUid {
     MainThreadBegin
-    [CSInfoAlert showInfo:[NSString stringWithFormat:@"%llu sei:%@", senderUid, info]];
+    NSString *hexString = [CSUtils hexStringFromData:info];
+    [CSInfoAlert showInfo:[NSString stringWithFormat:@"%llu sei:%@", senderUid, hexString]];
+    NSLog(@"recv sei:%@", hexString);
     MainThreadCommit
 }
 
@@ -913,6 +986,76 @@ CSMusicViewControllerDelegate
     [self.musicViewController activeSpeaker:uid];
 }
 
+- (void)mediaEngine:(CStoreMediaEngineCore * _Nonnull)mediaEngine onCaptureVideoFrame:(unsigned char *_Nonnull) data frameType:(int) frameType width:(int) width height:(int) height bufferLength:(int) bufferLength rotation:(int) rotation renderTimeMs:(uint64_t) renderTimeMs{
+//        NSDictionary *pixelAttributes = @{(id)kCVPixelBufferIOSurfacePropertiesKey : @{}};
+//        CVPixelBufferRef inPixelBuffer = NULL;
+//        CVReturn result = CVPixelBufferCreate(kCFAllocatorDefault,
+//                                              width,
+//                                              height,
+//                                              kCVPixelFormatType_420YpCbCr8PlanarFullRange,
+//                                              (__bridge CFDictionaryRef)(pixelAttributes),
+//                                              &inPixelBuffer);
+//
+//        CVPixelBufferLockBaseAddress(inPixelBuffer, 0);
+//        unsigned char *inPixelData = (unsigned char *)CVPixelBufferGetBaseAddress(inPixelBuffer);
+//        memcpy(inPixelData, data, bufferLength);
+//
+//        if (result != kCVReturnSuccess) {
+//            NSLog(@"Unable to create cvpixelbuffer %d", result);
+//        }
+//
+//        CVPixelBufferRetain(inPixelBuffer);
+//        CMSampleBufferRef sampleBuffer = NULL;
+//        CMSampleTimingInfo timimgInfo = kCMTimingInfoInvalid;
+//        CMVideoFormatDescriptionRef videoInfo = NULL;
+//        CMVideoFormatDescriptionCreateForImageBuffer(
+//                                                 NULL, inPixelBuffer, &videoInfo);
+//        CMSampleBufferCreateForImageBuffer(kCFAllocatorDefault,
+//                                           inPixelBuffer,
+//                                           true,
+//                                           NULL,
+//                                           NULL,
+//                                           videoInfo,
+//                                           &timimgInfo,
+//                                           &sampleBuffer);
+//
+//
+//        //TODO:process sampleBuffer
+//
+//
+//        CVPixelBufferRef outPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+//        CVPixelBufferLockBaseAddress(outPixelBuffer, 0);
+//        unsigned char *outPixelData = (unsigned char *)CVPixelBufferGetBaseAddress(outPixelBuffer);
+//
+//        //test to change data
+//        for(int i = 0; i< width*height;i++){
+//            outPixelData[i] = 0;
+//        }
+//
+//        memcpy(data, outPixelData, bufferLength);
+//
+//        CVPixelBufferUnlockBaseAddress(inPixelBuffer, 0);
+//        CVPixelBufferUnlockBaseAddress(outPixelBuffer, 0);
+//
+//        CVPixelBufferRelease(inPixelBuffer);
+//        CVPixelBufferRelease(outPixelBuffer);
+//        CFRelease(sampleBuffer);
+}
+
+- (void)mediaEngine:(CStoreMediaEngineCore * _Nonnull)mediaEngine onCaptureVideoSampleBuffer:(CMSampleBufferRef) sampleBuffer renderTimeMs:(uint64_t) renderTimeMs{
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    float width = CVPixelBufferGetWidth(pixelBuffer);
+    float height = CVPixelBufferGetHeight(pixelBuffer);
+    
+    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+    unsigned char *outPixelData = (unsigned char *)CVPixelBufferGetBaseAddress(pixelBuffer);
+    //test to change data
+//    for(int i = 0; i< width * height;i++){
+//        outPixelData[i] = 70;
+//    }
+    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+}
+
 #pragma mark - CSCaptureDeviceDataOutputPixelBufferDelegate
 - (void)captureDevice:(CSCaptureDeviceCamera *)device didCapturedData:(CMSampleBufferRef)data {
     CVPixelBufferRef ref = CMSampleBufferGetImageBuffer(data);
@@ -923,6 +1066,11 @@ CSMusicViewControllerDelegate
 #pragma mark - CSMusicViewControllerDelegate
 - (void)didTapBgOfMusicViewController:(CSMusicViewController *)controller {
     [self.musicViewController.view removeFromSuperview];
+}
+
+#pragma mark - CSVoiceChangerViewControllerDelegate
+- (void)didTapBgOfVoiceChangerViewController:(CSVoiceChangerViewController *)controller {
+    [self.voiceChangerViewController.view removeFromSuperview];
 }
 
 #pragma mark - Notification

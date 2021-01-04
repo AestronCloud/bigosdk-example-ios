@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong)NSString *joinExtraInfo;
 @property(nonatomic, assign)BOOL multiViewRenderMode;
 @property(nonatomic, strong)NSString *autoRtmpUrl;
+@property(nonatomic, strong)NSString *countryCode;
 
 @end
 

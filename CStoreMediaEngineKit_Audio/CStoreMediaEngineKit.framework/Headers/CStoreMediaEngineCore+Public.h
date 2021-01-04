@@ -18,6 +18,7 @@
 @class CSMUserInfo;
 @class CSMLiveTranscoding;
 @class CSMVideoCanvas;
+@class CSAppConfigure;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -97,8 +98,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设置媒体次要信息发送开关及相关类型
  
- @param start 开启/关闭媒体次要信息传输，true 表示开启媒体次要信息传输，false 表示关闭媒体次要信息传输。start 为 true 时，onlyAudioPublish 参数开关才有效。
- @param onlyAudioPublish 是否为纯音频直播，true 表示纯音频直播，sei为单帧发送，长度限制为(16,800)字节；false 表示音视频直播，sei为随帧发送，长度限制为(16,4096)字节；默认为 false。
+ @param start 开启/关闭媒体次要信息传输，YES 表示开启媒体次要信息传输，NO 表示关闭媒体次要信息传输。start 为 YES 时，onlyAudioPublish 参数开关才有效。
+ @param onlyAudioPublish 是否为纯音频直播，YES 表示纯音频直播，sei为单帧发送，长度限制为(16,800)字节；false 表示音视频直播，sei为随帧发送，长度限制为(16,4096)字节；默认为 NO。
  @param seiSendType sei发送类型(预留参数，暂无作用)
 */
 - (void)setMediaSideFlags:(BOOL)start onlyAudioPublish:(BOOL)onlyAudioPublish seiSendType:(int)seiSendType;
@@ -106,9 +107,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
 发送媒体次要信息传输
  
-@param info 需要传输的音视频次要信息数据，外部输入；注意：用户需要把 uuid(长度为 16 字节) + content 当作 inData 输入；
+@param info 需要传输的音视频次要信息数据，外部输入；注意：用户需要把 uuid(长度为 16 字节) + content 当作 info 输入；
 */
-- (void)sendMediaSideInfo:(NSString *)info;
+- (void)sendMediaSideInfo:(NSData *)info;
 
 /**
  获取SDK版本号
@@ -475,7 +476,7 @@ NS_ASSUME_NONNULL_BEGIN
     - 0：设置成功
     - < 0：设置失败
 */
-- (int) registerAudioFrameObserver:(void*) observer;
+- (int) registerAudioFrameObserver:(long) observer;
 
 #pragma mark - InEarMonitoring耳返
 /**
@@ -743,6 +744,64 @@ NS_ASSUME_NONNULL_BEGIN
  - YES：开启后， reportAudioVolumeIndicationOfSpeakers 回调的 vad 参数会报告是否在本地检测到人声。
 */
 - (void) enableAudioVolumeIndication:(NSInteger)interval smooth:(NSInteger)smooth report_vad:(BOOL)report_vad;
+
+//************* 变声功能 ***************//
+#pragma mark - voice changer
+/**
+ 设置本地语音音调，开发中，待上线
+@param pitch  语音频率。可以在 [0.5,2.0] 范围内设置。取值越小，则音调越低。默认值为 1.0，表示不需要修改音调。
+@return 是否设置成功
+ - 0：设置成功
+ - < 0：设置失败
+*/
+- (int)setLocalVoicePitch:(double) pitch;
+/**
+ 设置本地语音音效均衡，开发中，待上线
+@param bandFrequency  频谱子带索引，取值范围是 [0,9]，分别代表 10 个 频带，对应的中心频率是 [31，62，125，250，500，1k，2k，4k，8k，16k] Hz，详见 AestronAudioEqualizationBandFrequency。
+@param gain  每个 band 的增益，单位是 dB，每一个值的范围是 [-15,15]，默认值为 0。
+@return 是否设置成功
+ - 0：设置成功
+ - < 0：设置失败
+*/
+- (int)setLocalVoiceEqualizationOfBandFrequency:(AestronAudioEqualizationBandFrequency)bandFrequency withGain:(NSInteger)gain;
+
+/**
+ 设置本地音效混响，开发中，待上线
+@param reverbType  混响音效类型。参考AestronAudioReverbParamsType。
+@param value 设置混响音效的效果数值。各混响音效对应的取值范围请参考AestronAudioReverbParamsType
+@return 是否设置成功
+ - 0：设置成功
+ - < 0：设置失败
+*/
+- (int)setLocalVoiceReverbOfType:(AestronAudioReverbParamsType)reverbType withValue:(NSInteger)value;
+
+/**
+ 设置本地语音变声
+@param voiceChanger 本地语音的变声，默认原声。
+@return 是否设置成功
+ - 0：设置成功
+ - < 0：设置失败
+*/
+- (int)setLocalVoiceChanger:(AestronAudioVoiceChanger)voiceChanger;
+
+/**
+ 预设置本地语音混响
+@param preset 本地语音混响选项，默认原声。详见AestronAudioReverbPreset
+@return 是否设置成功
+ - 0：设置成功
+ - < 0：设置失败
+*/
+- (int)setLocalVoiceReverbPreset:(AestronAudioReverbPreset)preset;
+
+/**
+ 预设置本地语音均衡器，开发中，后续上线
+@param preset 本地语音均衡器选项，默认原声。详见AestronAudioEqualizationPreset
+@return 是否设置成功
+ - 0：设置成功
+ - < 0：设置失败
+*/
+- (int)setLocalVoiceEqualizerPreset:(AestronAudioEqualizationPreset)preset;
+
 
 #pragma mark - Core Video
 
@@ -1117,6 +1176,14 @@ NS_ASSUME_NONNULL_BEGIN
  @param frameBuffer 要向 SDK 发送的视频帧数据
 */
 - (void)sendCustomVideoCapturePixelBuffer:(CVPixelBufferRef)frameBuffer;
+
+/**
+ * 设置App配置信息
+ * 该接口需要在joinChannel前调用
+ * 用户通过此接口可以设置一些App配置信息，比如通过设置国家码，SDK能找到更优的节点去接入直播
+ * @param appConfigs App配置信息
+ */
+- (void)setAppConfigure:(CSAppConfigure*)appConfigs;
 
 @end
 

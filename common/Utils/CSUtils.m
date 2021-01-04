@@ -203,6 +203,30 @@
     CVPixelBufferUnlockBaseAddress( ref, 0 );
 }
 
++ (NSString *)hexStringFromData:(NSData *)data {
+    NSMutableString *mutString = [NSMutableString string];
+    const Byte *buf = (const Byte *)data.bytes;
+    for (int i = 0; i < data.length; i++) {
+        [mutString appendFormat:@"0x%02X ", buf[i]];
+    }
+    return mutString;
+}
+
++ (NSData *)dataFromHexString:(NSString *)hexString {
+    hexString = [[hexString stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"0x" withString:@""];
+    NSMutableData *data= [[NSMutableData alloc] init];
+    unsigned char whole_byte;
+    char byte_chars[3] = {'\0','\0','\0'};
+    int i;
+    for (i=0; i < [hexString length]/2; i++) {
+        byte_chars[0] = [hexString characterAtIndex:i*2];
+        byte_chars[1] = [hexString characterAtIndex:i*2+1];
+        whole_byte = strtol(byte_chars, NULL, 16);
+        [data appendBytes:&whole_byte length:1];
+    }
+    return data;
+}
+
 @end
 
 @implementation CSButton

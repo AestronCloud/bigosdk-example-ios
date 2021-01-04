@@ -28,7 +28,7 @@ public:
 };
 
 
-static BigoAudioFrameObserver *mBigoAudioFrameObserver = nullptr;
+static BigoAudioFrameObserver mBigoAudioFrameObserver;
 
 @implementation BigoAudioProcessing
 
@@ -36,16 +36,14 @@ static BigoAudioFrameObserver *mBigoAudioFrameObserver = nullptr;
     if (!engine) {
         return;
     }
-    if(mBigoAudioFrameObserver == nullptr)
-        mBigoAudioFrameObserver = new BigoAudioFrameObserver();
-    [engine registerAudioFrameObserver:mBigoAudioFrameObserver];
+    [engine registerAudioFrameObserver:long(&mBigoAudioFrameObserver)];
 }
 
 + (void)deregisterAudioPreprocessing:(CStoreMediaEngineCore*) engine {
     if (!engine) {
         return;
     }
-    [engine registerAudioFrameObserver:nil];
+    [engine registerAudioFrameObserver:0];
 }
 
 @end

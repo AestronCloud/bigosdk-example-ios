@@ -52,6 +52,10 @@ static inline void ReloadFormControllerIfNeed() {
     return @{ FXFormFieldTitle: @"单主播自动合流地址" };
 }
 
+- (NSDictionary *)countryCodeField {
+    return @{ FXFormFieldTitle: @"国家码" };
+}
+
 @end
 
 @implementation CSTestArgSettingManager

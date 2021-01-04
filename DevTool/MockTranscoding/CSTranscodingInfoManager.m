@@ -251,6 +251,7 @@ static inline void CopyObject(NSObject *source, NSObject *dest, NSDictionary<NSS
 @property (nonatomic, assign) uint8_t videoGop;
 @property (nonatomic, strong) NSArray<CSMTranscodingUserForm *> *transcodingUsers;
 @property (nonatomic, strong) CSMTranscodingImageForm *backgroundImage;
+@property (nonatomic, assign) uint8_t audioCodecProfile;
 
 @end
 
@@ -292,6 +293,10 @@ static inline void CopyObject(NSObject *source, NSObject *dest, NSDictionary<NSS
 - (CGSize)size {
     [self generateSize];
     return _size;
+}
+
+-(void)setaudioCodecProfile:(CGFloat)audioCodecProfile {
+    _audioCodecProfile = audioCodecProfile;
 }
 
 - (CSMLiveTranscoding *)toTranscoding {

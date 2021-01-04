@@ -20,4 +20,5 @@
 #import <CStoreMediaEngineKit/CSMVideoCanvas.h>
 #import <CStoreMediaEngineKit/CSMLocalAudioStats.h>
 #import <CStoreMediaEngineKit/CSMLocalVideoStats.h>
+#import <CStoreMediaEngineKit/CSAppConfigure.h>
 #endif /* CStoreMediaEngineKit_h */

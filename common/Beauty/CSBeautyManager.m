@@ -13,6 +13,7 @@
 #import "CSBeautySkinDataSource.h"
 #import "CSBeautyStickerDataSource.h"
 #import <CStoreMediaEngineKit/CStoreMediaEngineKit.h>
+#import "CSUtils.h"
 
 @interface CSBeautyManager ()
 
@@ -72,14 +73,6 @@
     self.filterPathBeforePause = filterPath;
     self.filterLevelBeforePause = level;
     [[CStoreMediaEngineCore sharedSingleton] setBeautifyFilterWithPath:filterPath level:level];
-    [[CStoreMediaEngineCore sharedSingleton] setMediaSideFlags:YES onlyAudioPublish:YES seiSendType:0];
-    
-    unsigned char uuid[16] = {0x3c, 0x13, 0x1e, 0x19,
-        0x16, 0x18, 0x49, 0x1c,
-        0x1a, 0x33, 0x15, 0x1e,
-        0x1f, 0x12, 0x53, 0x4d};
-    NSString *uuidStr = [NSString stringWithCString:(const char *)uuid encoding:NSUTF8StringEncoding];
-    [[CStoreMediaEngineCore sharedSingleton] sendMediaSideInfo:[NSString stringWithFormat:@"%@ios:filter is changed,send in audio.", uuidStr]];
 }
 
 - (void)setBeautifyWhiteSkin:(NSString * _Nullable)whiteResourcePath level:(int)level {
@@ -111,14 +104,6 @@
 #if AdvancedBeauty
     [[CStoreMediaEngineCore sharedSingleton] setStickerWithPath:path];
 #endif
-    [[CStoreMediaEngineCore sharedSingleton] setMediaSideFlags:YES onlyAudioPublish:NO seiSendType:0];
-    
-    unsigned char uuid[16] = {0x3c, 0x13, 0x1e, 0x19,
-        0x16, 0x18, 0x49, 0x1c,
-        0x1a, 0x33, 0x15, 0x1e,
-        0x1f, 0x12, 0x53, 0x4d};
-    NSString *uuidStr = [NSString stringWithCString:(const char *)uuid encoding:NSUTF8StringEncoding];
-    [[CStoreMediaEngineCore sharedSingleton] sendMediaSideInfo:[NSString stringWithFormat:@"%@ios:sticker is changed,send in video.", uuidStr]];
 }
 
 #pragma mark - Getter

@@ -33,8 +33,8 @@
 #ifdef DEBUGLOG_ENABLE
     [self enabelCrashCollect];
 #endif
-    
-    CSMainViewController *mainVC = [[UIStoryboard storyboardWithName:@"common" bundle:nil] instantiateViewControllerWithIdentifier:@"CSMainViewController"];
+        
+        CSMainViewController *mainVC = [[UIStoryboard storyboardWithName:@"common" bundle:nil] instantiateViewControllerWithIdentifier:@"CSMainViewController"];
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mainVC];
     _globalNavController = navVC;
     

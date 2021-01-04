@@ -369,6 +369,50 @@ typedef NS_ENUM(NSUInteger, CSMResolutionType) {
      分辨率480x270
      */
     CSMResolutionType480x270 = 50,
+    /**
+     分辨率320x180
+     */
+    CSMResolutionType320x180 = 51,
+    /**
+     分辨率 4 high
+     */
+    CSMResolution_3to4_high = 52,
+    /**
+     分辨率 5 -> 6  high
+     */
+    CSMResolution_5to6_high = 53,
+    /**
+     分辨率 7 -> 9  high
+     */
+    CSMResolution_7to9_high = 54,
+    /**
+     分辨率 4 std
+     */
+    CSMResolution_3to4_std = 55,
+    /**
+     分辨率 5 -> 6  std
+     */
+    CSMResolution_5to6_std = 56,
+    /**
+     分辨率 7 -> 9  std
+     */
+    CSMResolution_7to9_std = 57,
+    /**
+     分辨率 1->2 fluent
+     */
+    CSMResolution_1to2_fluent = 58,
+    /**
+     分辨率 4 fluent
+     */
+    CSMResolution_3to4_fluent = 59,
+    /**
+     分辨率 5 -> 6  fluent
+     */
+    CSMResolution_5to6_fluent = 60,
+    /**
+     分辨率 7 -> 9  fluent
+     */
+    CSMResolution_7to9_fluent = 61,
 };
 
 /**
@@ -482,6 +526,176 @@ typedef NS_ENUM(NSInteger, BigoPixelFormat) {
      2:rgba24
     */
     RGBA = 2,
+};
+
+/**
+ 语音音效均衡波段的中心频率
+ */
+typedef NS_ENUM(NSInteger, AestronAudioEqualizationBandFrequency ) {
+    /**
+     31Hz
+    */
+    AestronAudioEqualizationBand31 = 0,
+    /**
+     62Hz
+    */
+    AestronAudioEqualizationBand62 = 1,
+    /**
+     125Hz
+    */
+    AestronAudioEqualizationBand125 = 2,
+    /**
+     250Hz
+    */
+    AestronAudioEqualizationBand250 = 3,
+    /**
+     500Hz
+    */
+    AestronAudioEqualizationBand500 = 4,
+    /**
+     1000Hz
+    */
+    AestronAudioEqualizationBand1K = 5,
+    /**
+     2000Hz
+    */
+    AestronAudioEqualizationBand2K = 6,
+    /**
+     4000Hz
+    */
+    AestronAudioEqualizationBand4K = 7,
+    /**
+     8000Hz
+    */
+    AestronAudioEqualizationBand8K = 8,
+    /**
+     16000Hz
+    */
+    AestronAudioEqualizationBand16K = 9,
+};
+
+/**
+ 音频混响参数类型
+ */
+typedef NS_ENUM(NSInteger, AestronAudioReverbParamsType ) {
+    /**
+     原始声音强度，即所谓的 dry signal，取值范围 [-20,10]，单位为 dB
+    */
+    AestronAudioReverbDryLevel = 0,
+    /**
+     早期反射信号强度，即所谓的 wet signal，取值范围 [-20,10]，单位为 dB
+    */
+    AestronAudioReverbWetLevel = 1,
+    /**
+     所需混响效果的房间尺寸，一般房间越大，混响越强，取值范围 [0,100]
+    */
+    AestronAudioReverbRoomSize = 2,
+    /**
+     wet signal 的初始延迟长度，取值范围 [0,200]，单位为 ms
+    */
+    AestronAudioReverbWetDelay = 3,
+    /**
+     混响持续的强度，取值范围 [0,100]
+    */
+    AestronAudioReverbStrength = 4,
+};
+
+/**
+ 预设混响类型
+ */
+typedef NS_ENUM(NSInteger, AestronAudioVoiceChanger) {
+    /**
+     0: 原声，即关闭本地变声
+    */
+    AestronAudioVoiceChangerOff = 0,
+    /**
+    * 1 老男人
+    */
+    AestronAudioVoiceChangerOldman = 1,
+    /**
+    * 2 小男孩
+    */
+    AestronAudioVoiceChangerBabyboy = 2,
+    /**
+    * 3 小女孩
+    */
+    AestronAudioVoiceChangerBabygril = 3,
+    /**
+    * 4, 猪八戒
+    */
+    AestronAudioVoiceChangerZhubajie = 4,
+    /**
+    * 5. 空灵
+    */
+    AestronAudioVoiceChangerEthreal = 5,
+    /**
+    * 6.绿巨人
+    */
+    AestronAudioVoiceChangerHulk = 6,
+    /**
+    * 7.怪兽
+    */
+    AestronAudioVoiceChangerMonster = 7,
+    /**
+    * 8.机器人
+    */
+    AestronAudioVoiceChangerRobot = 8,
+    /**
+    * 9.外星人
+    */
+    AestronAudioVoiceChangerAlien = 9,
+    
+};
+/**
+ 预设混响类型
+ */
+typedef NS_ENUM(NSInteger, AestronAudioReverbPreset) {
+    /**
+     0: 原声，即关闭本地语音混响
+    */
+    AestronAudioReverbPresetOff = 0,
+    /**
+    * 音乐会。<br/>
+    */
+    AestronAudioReverbConcert = 1,
+    /**
+    * 录音棚。<br/>
+    */
+    AestronAudioReverbStudio = 2,
+    /**
+    * KTV。<br/>
+    */
+    AestronAudioReverbKtv = 3,
+    /**
+    * 教堂<br/>
+    */
+    AestronAudioReverbChurch = 4,
+    /**
+    * 酒吧<br/>
+    */
+    AestronAudioReverbClub = 5,
+    /**
+    * 卫生间<br/>
+    */
+    AestronAudioReverbBathroom = 6,
+};
+
+/**
+ 预设均衡器类型。
+ */
+typedef NS_ENUM(NSInteger, AestronAudioEqualizationPreset) {
+    /**
+     0: 原声，即关闭本地语音均衡器
+    */
+    AestronAudioEqualizationOff = 0,
+    /**
+    * 舒适。<br/>
+    */
+    AestronAudioEqualizationSoft = 1,
+    /**
+    * 超低音。<br/>
+    */
+    AestronAudioEqualizationSuperbass = 2,
 };
 
 #endif /* CStoreMediaEngineCoreEnums_h */
